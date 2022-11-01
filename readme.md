@@ -4,7 +4,7 @@ This is the StarterKit for Considition 2022 which will help you get going as qui
 - **The Main Program:** This is where we run the main parts. There is an example solver implemented, Solver, which you can try out of the box.
 - **The Game Layer:** A wrapper between the API and the Main Program. Helps you with formatting the input to the API.
 - **The API:** A representation of the REST-API that the game is played with. Can be used directly or through the Game Layer.
-- **GreedySolver:** This is the out of the box solver you can change, take inspiration from or just replace with your own solver.
+- **Solver:** This is the out of the box solver you can change, take inspiration from or just replace with your own solver.
 - **Scoring:** An explanation of the factors that determine the score.
 
 The competition itself and how the evaluation of the solutions work is described in more in detail on [Considition.com/rules](considition.com/rules).
@@ -20,8 +20,8 @@ The Main Program is simple. Each run of the program does the following:
 - Submits the score to be validated and if approved, evaluated and posted for the competition.
 - Prints the final score, game id to keep track of your best attempts, and a link if you want to see a visualisation of the game.
 
-# Greedy Solver
-Greedy Solver is a very simple algorithm which simple focuses on placing the heaviest and largest packages in the back corner of the truck, it completely disregards the order of the packages. Each package is represented by the coordinates of it's 8 corners. You can take a look at the function AddPackage() if you're unsure of how to calculate the coordinates when adding a package. 
+# Solver
+Solver is a very simple iterator to determine how many orders should be put each day with three simple suggested approaches. The refundChoice is set to "True", a bag price of 10 and a refund of 1. The training maps simulates 31 days and the others 365 days.
 
 # Game Layer
 The game layer has all the functions you need to play the game.
