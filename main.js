@@ -11,7 +11,7 @@ const bag_type = 1
 async function main(){
     let response = await api.getMap(apiKey, currentMap)
     let days = 31;
-    if (map_name != "training1" && map_name == "training2") {
+    if (currentMap != "training1" && currentMap == "training2") {
         days = 365;
     }
     let solution = solver.solve(response, bag_type, days);
