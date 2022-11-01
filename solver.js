@@ -3,6 +3,7 @@
 let bagType_price = [1.7, 1.75, 6, 25, 200];
 let bagType_co2_production = [5, 7, 3, 6, 20];
 let bagType_co2_transport = [50, 40, 60, 70, 100];
+let solution = {};
 
 /**
  * Tries to solve the given map.
@@ -20,7 +21,7 @@ function solve(map, bagType, days) {
     
     solution.orders = []
     for (let day = 0; day < days; day++) {
-        solution.orders.push(wasteMoney(bagType))
+        solution.orders.push(wasteMoney(bagType, map.companyBudget))
     }
 
     return solution
@@ -28,17 +29,17 @@ function solve(map, bagType, days) {
 }
 
 // Solution 1: "Spend all money day 1"
-function wasteMoney(bagtype) {
+function wasteMoney(bagtype, companyBudget) {
     return Math.floor(companyBudget / bagType_price[bagtype]);
 }
 
 // Solution 2: "Spend equally money every day"
-function splitMoney(bagtype) {
+function splitMoney(bagtype, companyBudget, days) {
     return Math.floor(companyBudget / bagType_price[bagtype] / days);
 }
 
 // Solution 3: "Everyone get one bag every day"
-function holdMoney(bagtype) {
+function holdMoney(bagtype, companyBudget, population, days) {
     return Math.floor(companyBudget / bagType_price[bagtype] / population / days);
 }
 
