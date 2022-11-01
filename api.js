@@ -40,7 +40,7 @@ async function submitGame(apiKey, mapName, data) {
         }
     };
 
-    solution.mapName = mapName;
+    data.mapName = mapName;
 
     try {
         let response = await instance.post(`${BASE_PATH}/submit`,data, config);
