@@ -40,8 +40,10 @@ async function submitGame(apiKey, mapName, data) {
         }
     };
 
+    solution.mapName = mapName;
+
     try {
-        let response = await instance.post(`${BASE_PATH}/submit?MapName=${mapName}`,data, config);
+        let response = await instance.post(`${BASE_PATH}/submit`,data, config);
         return response.data;
     } catch (err) {
         console.log(err)
