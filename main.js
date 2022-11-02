@@ -2,7 +2,25 @@
 const solver = require("./solver");
 const fs = require('fs')
 
-const apiKey = "4d623da4-d9fe-403a-4806-08da97ce1ad5"; //TODO: Your api key here
+const storeData = (data, path) => {
+    try {
+        fs.writeFileSync(path, JSON.stringify(data))
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+const loadData = (path) => {
+    try {
+      return fs.readFileSync(path, 'utf8')
+    } catch (err) {
+      console.error(err)
+      return false
+    }
+  }
+
+
+const apiKey = loadData("key.txt"); //TODO: Your api key here
 //The different map names can be found on considition.com/rules
 const currentMap = "FancyVille"; //Todo: Your map choice here
 
@@ -77,22 +95,4 @@ async function main(){
 
 
 main();
-
-
-const storeData = (data, path) => {
-    try {
-        fs.writeFileSync(path, JSON.stringify(data))
-    } catch (err) {
-        console.error(err)
-    }
-}
-
-const loadData = (path) => {
-    try {
-      return fs.readFileSync(path, 'utf8')
-    } catch (err) {
-      console.error(err)
-      return false
-    }
-  }
   
