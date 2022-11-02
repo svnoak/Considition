@@ -67,6 +67,9 @@ async function main(){
     let solutions = [];
     for (const sub of subs) {
         let solution = solver.solve(response, sub, days);
+        let copy = {...solution};
+        copy.bagPrice = sub.bagPrice;
+        copy.refundAmount = sub.refundAmount;
         solutions.push({...solution});
     }
 
@@ -85,8 +88,8 @@ async function main(){
         storeData(highest, "solution.json");
     } else {
         let lastSolution = JSON.parse(loadData("solution.json"));
-        console.log(lastSolution);
         let solution = solver.solve(response, lastSolution.solution, days);
+        let score = await api.submitGame(apiKey, currentMap, solution);
         console.log(solution);
     }
 

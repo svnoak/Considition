@@ -1,8 +1,8 @@
 {
     "solution":{
     "recycleRefundChoice":true,
-    "bagPrice":0.875,
-    "refundAmount":0.17500000000000002,
+    "bagPrice":0.5,
+    "refundAmount":0.1,
     "bagType":2,
     "orders":[571,571,571,571,571,571,571,571,571,571,571,571,571,571,571,571,571,571,571,571,571,571,571,571,571,571,571,571,571,571,571],
     "mapName":"FancyVille"

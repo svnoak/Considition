@@ -22,7 +22,7 @@ function solve(map, sub, days) {
     
     solution.orders = []
     for (let day = 0; day < days; day++) {
-        solution.orders.push(splitMoney(sub.bagType, map.companyBudget, days));
+        solution.orders.push(holdMoney(sub.bagType, map.companyBudget, map.population, days));
     }
     return solution;
 }
@@ -39,7 +39,7 @@ function splitMoney(bagtype, companyBudget, days) {
 
 // Solution 3: "Everyone get one bag every day"
 function holdMoney(bagtype, companyBudget, population, days) {
-    return Math.floor(companyBudget / bagType_price[bagtype-1] / population*2 / days);
+    return Math.floor(companyBudget / bagType_price[bagtype-1] / population / days);
 }
 
 module.exports = {
