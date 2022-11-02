@@ -1,4 +1,4 @@
-﻿const {isUndefined} = require("axios/lib/utils");
+﻿const { isUndefined } = require("axios/lib/utils");
 
 let bagType_price = [1.7, 1.75, 6, 25, 200];
 let bagType_co2_production = [5, 7, 3, 6, 20];
@@ -14,34 +14,42 @@ let solution = {};
  */
 
 function solve(map, sub, days) {
+	solution.recycleRefundChoice = sub.recycleRefundChoice;
+	solution.bagPrice = bagType_price[sub.bagType - 1] * sub.bagPrice;
+	solution.refundAmount = bagType_price[sub.bagType - 1] * sub.refundAmount;
+	solution.bagType = sub.bagType;
 
-    solution.recycleRefundChoice = sub.recycleRefundChoice;
-    solution.bagPrice = bagType_price[sub.bagType-1] * sub.bagPrice;
-    solution.refundAmount = bagType_price[sub.bagType-1] * sub.refundAmount;
-    solution.bagType = sub.bagType;
-    
-    solution.orders = []
-    for (let day = 0; day < days; day++) {
-        solution.orders.push(splitMoney(sub.bagType, map.companyBudget, days));
-    }
-    return solution;
+	solution.orders = [];
+	for (let day = 0; day < days; day++) {
+		if (day % 4 == 0) {
+			// solution.orders.push(splitMoney(sub.bagType, map.companyBudget, map.population));
+			solution.orders.push(wasteMoney(sub.bagType, map.companyBudget));
+		} else {
+			solution.orders.push(holdMoney(sub.bagType, map.companyBudget, map.population, days));
+		}
+		// solution.orders.push(wasteMoney(sub.bagType, map.companyBudget));
+		// solution.orders.push(splitMoney(sub.bagType, map.companyBudget, map.population));
+		// solution.orders.push(holdMoney(sub.bagType, map.companyBudget, map.population, days));
+	}
+	console.log(solution);
+	return solution;
 }
 
 // Solution 1: "Spend all money day 1"
 function wasteMoney(bagtype, companyBudget) {
-    return Math.floor(companyBudget / bagType_price[bagtype-1]);
+	return Math.floor(companyBudget / bagType_price[bagtype - 1]);
 }
 
 // Solution 2: "Spend equally money every day"
 function splitMoney(bagtype, companyBudget, days) {
-    return Math.floor(companyBudget / bagType_price[bagtype-1] / days);
+	return Math.floor(companyBudget / bagType_price[bagtype - 1] / days);
 }
 
 // Solution 3: "Everyone get one bag every day"
 function holdMoney(bagtype, companyBudget, population, days) {
-    return Math.floor(companyBudget / bagType_price[bagtype-1] / population / days);
+	return Math.floor(companyBudget / bagType_price[bagtype - 1] / (population / days) / 10);
 }
 
 module.exports = {
-    solve
-}
+	solve,
+};
