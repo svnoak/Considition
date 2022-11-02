@@ -90,10 +90,21 @@ async function main(){
         let lastSolution = JSON.parse(loadData("solution.json"));
         let solution = solver.solve(response, lastSolution.solution, days);
         let score = await api.submitGame(apiKey, currentMap, solution);
-        console.log(solution);
-    }
+        
+        if( lastSolution.score.score > score.score ) {
+            console.log("Worse than last time");
+            console.log("Old: " + lastSolution.score.score);
+            console.log("New: " + score.score);
 
-    
+        } else if( lastSolution.score.score == score.score )
+        {
+            console.log("Same as last time");
+        } else {
+            console.log("Better than last time");
+            console.log("Old: " + lastSolution.score.score);
+            console.log("New: " + score.score);
+        }   
+    }
 }
 
 
