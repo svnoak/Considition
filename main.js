@@ -13,7 +13,7 @@ async function main(bagNum){
     let days = JSON.parse(utils.loadData("config.json")).days;
     let response = await api.getMap(apiKey, currentMap);
     
-    const prices = [0.1, 4, 6, 10];
+    const prices = [0.1, 4, 6];
     const refunds = [0.1,0.4,0.8];
     const recycles = [true, false];
     const bagType = bagNum;
@@ -49,7 +49,7 @@ async function main(bagNum){
         
         for( const high of highest )
         {
-            let highscore = await findScore(high, 0.2);
+            let highscore = await findScore(high, 0.5);
             highscore = await findScore(highscore, 0.2);
             highscore = await findScore(highscore, 0.1);
             highscore = await findScore(highscore, 0.01);
@@ -89,15 +89,13 @@ async function main(bagNum){
         let highscore = await getHighestScore(high.solution, high.score, diff);
         let newScore = await getHighestScore(highscore.solution, highscore.score, diff);
 
-        const condition = newScore.score.score > highscore.score.score
-        //const condition = true;
-
-        while( condition ){
+        while( newScore.score.score > highscore.score.score){
             highscore = newScore;
             newScore = await getHighestScore(highscore.solution, highscore.score, diff);
             console.log(newScore.score.score);
         }
-
+        
+        console.log(highscore.score.score);
         return highscore;
     }
 
