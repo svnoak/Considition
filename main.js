@@ -49,7 +49,7 @@ async function main(bagNum){
         
         for( const high of highest )
         {
-            let highscore = await findScore(high, 0.5);
+            let highscore = await findScore(high, 0.2);
             highscore = await findScore(highscore, 0.2);
             highscore = await findScore(highscore, 0.1);
             highscore = await findScore(highscore, 0.01);
@@ -89,13 +89,15 @@ async function main(bagNum){
         let highscore = await getHighestScore(high.solution, high.score, diff);
         let newScore = await getHighestScore(highscore.solution, highscore.score, diff);
 
-        while( newScore.score.score > highscore.score.score){
+        //const condition = newScore.score.score > highscore.score.score
+        const condition = true;
+
+        while( condition ){
             highscore = newScore;
             newScore = await getHighestScore(highscore.solution, highscore.score, diff);
             console.log(newScore.score.score);
         }
-        
-        console.log(highscore.score.score);
+
         return highscore;
     }
 
