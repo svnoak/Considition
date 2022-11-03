@@ -22,7 +22,7 @@ function solve(map, sub, days) {
     
     solution.orders = []
     for (let day = 0; day < days; day++) {
-        solution.orders.push(splitMoney(sub.bagType, map.companyBudget, days));
+        solution.orders.push(wasteMoney(sub.bagType, map.companyBudget));
     }
     return solution;
 }

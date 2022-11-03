@@ -7,8 +7,6 @@ const currentMap = JSON.parse(utils.loadData("config.json")).map;
 
 async function main(bagNum){
 
-    console.log(currentMap);
-
     let days = JSON.parse(utils.loadData("config.json")).days;
     let response = await api.getMap(apiKey, currentMap);
     
@@ -37,21 +35,18 @@ async function main(bagNum){
         }
     }
 
-    console.log(subs);
-
-
     let solutions = [];
     for (const sub of subs) {
         let solution = solver.solve(response, sub, days);
         solutions.push({...solution});
     }
 
-    console.log(solutions.length);
-
     let scores = [];
-
+    console.log("MAIN SOLUTIONS");
     for (const solution of solutions) {
         let score = await api.submitGame(apiKey, currentMap, solution);
+        console.log(score.score);
+
         scores.push({solution: {...solution}, score});
     }
         scores.filter( e => e.score.score > 0 );
@@ -61,15 +56,13 @@ async function main(bagNum){
         
         for( const high of highest )
         {
-            getLargestDiff(high.solution);
+            await getLargestDiff(high.solution, high.score);
         }
 
     }
 
 
-function getLargestDiff(oldSolution){
-
-    console.log(oldSolution);
+async function getLargestDiff(oldSolution, oldScore){
 
     let solutions = [];
 
@@ -79,8 +72,11 @@ function getLargestDiff(oldSolution){
         solutions.push({...oldSolution});
     }
 
+    console.log("METHOD SOLUTIONS");
+    console.log("");
+
     for (let i = 0; i < solutions.length; i++) {
-        const  solution = solutions[i];
+        let solution = solutions[i];
 
         switch (i) {
             case 0: // Method 0
@@ -124,12 +120,15 @@ function getLargestDiff(oldSolution){
                 if( solution.refundAmount - diff > 0)
                     solution.refundAmount -= diff;
                 break;
-
-            let score = api.submitGame(apiKey, currentMap, solution);
-            solution = {solution: {...solution}, score: score};
-            solution.method = i;
         }
+
+        let score = await api.submitGame(apiKey, currentMap, solution);
+        let newSolution = {solution: {...solution}, score: score};
+        newSolution.method = i;
+        solutions[i] = newSolution;
     }
+    solutions.sort( (a,b) => b.score.score-a.score.score);
+    console.log(solutions[0]);
 }
 
 module.exports = {
