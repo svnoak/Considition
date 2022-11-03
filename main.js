@@ -55,6 +55,7 @@ async function main(bagNum){
             highscore = await findScore(highscore, 0.01);
 
             console.log(highscore);
+            console.log(highscore.score.weekly);
             /*
             let highscore = await getHighestScore(high.solution, high.score, 0.5);
             let newScore = await getHighestScore(highscore.solution, highscore.score, 0.5);
@@ -91,6 +92,7 @@ async function main(bagNum){
         while( newScore.score.score > highscore.score.score){
             highscore = newScore;
             newScore = await getHighestScore(highscore.solution, highscore.score, diff);
+            console.log(newScore);
         }
         
         console.log(highscore.score.score);
