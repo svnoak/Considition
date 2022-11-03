@@ -49,20 +49,52 @@ async function main(bagNum){
         
         for( const high of highest )
         {
-            let highscore = await getHighestScore(high.solution, high.score);
-            let newScore = await getHighestScore(highscore.solution, highscore.score);
+            let highscore = await findScore(high, 0.5);
+            highscore = await findScore(highscore, 0.2);
+            highscore = await findScore(highscore, 0.1);
+            highscore = await findScore(highscore, 0.01);
+
+            console.log(highscore);
+            /*
+            let highscore = await getHighestScore(high.solution, high.score, 0.5);
+            let newScore = await getHighestScore(highscore.solution, highscore.score, 0.5);
 
             console.log("initiating while loop");
             console.log(newScore.score.score > highscore.score.score);
 
             while( newScore.score.score > highscore.score.score){
-                console.log(highscore.score.score);
-                console.log(newScore.score.score);
                 highscore = newScore;
-                newScore = await getHighestScore(highscore.solution, highscore.score);
+                newScore = await getHighestScore(highscore.solution, highscore.score, 0.5);
             }
-            console.log(highscore);
+
+            highscore = await getHighestScore(high.solution, high.score, 0.2);
+            newScore = await getHighestScore(highscore.solution, highscore.score, 0.2);
+
+            console.log("initiating while loop");
+            console.log(newScore.score.score > highscore.score.score);
+
+            while( newScore.score.score > highscore.score.score){
+                highscore = newScore;
+                newScore = await getHighestScore(highscore.solution, highscore.score, 0.2);
+            }
+
+            console.log(highscore);*/
         }
+    }
+
+    async function findScore( high, diff ){
+        console.log("Working with diff: " + diff);
+
+        let highscore = await getHighestScore(high.solution, high.score, diff);
+        let newScore = await getHighestScore(highscore.solution, highscore.score, diff);
+
+        while( newScore.score.score > highscore.score.score){
+            highscore = newScore;
+            newScore = await getHighestScore(highscore.solution, highscore.score, diff);
+        }
+        
+        console.log(highscore.score.score);
+        return highscore;
     }
 
 
