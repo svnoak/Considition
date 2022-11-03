@@ -13,7 +13,7 @@ async function main(bagNum){
     let days = JSON.parse(utils.loadData("config.json")).days;
     let response = await api.getMap(apiKey, currentMap);
     
-    const prices = [0.1, 4, 6];
+    const prices = [0.1, 4, 6, 10];
     const refunds = [0.1,0.4,0.8];
     const recycles = [true, false];
     const bagType = bagNum;
