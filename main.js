@@ -56,7 +56,18 @@ async function main(bagNum){
         
         for( const high of highest )
         {
-            await getLargestDiff(high.solution, high.score);
+            let highscore = await getLargestDiff(high.solution, high.score);
+            let newScore = await getLargestDiff(highscore.solution, highscore.score);
+
+            console.log("initiating while loop");
+            console.log(newScore > highscore);
+
+            while( newScore > highscore){
+                highscore = newScore;
+                newScore = await getLargestDiff(highscore.solution, highscore.score);
+            }
+
+            console.log("Highscore: " + highscore);
         }
 
     }
@@ -128,7 +139,7 @@ async function getLargestDiff(oldSolution, oldScore){
         solutions[i] = newSolution;
     }
     solutions.sort( (a,b) => b.score.score-a.score.score);
-    console.log(solutions[0]);
+    return solutions[0];
 }
 
 module.exports = {
