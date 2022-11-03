@@ -94,7 +94,7 @@ async function main(bagNum){
 
         while( condition ){
             highscore = newScore;
-            newScore = await getHighestScore(highscore.solution, highscore.score, diff);
+            newScore = await getHighestScore(newScore.solution, newScore.score, diff);
             console.log(newScore.score.score);
         }
 
