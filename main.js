@@ -7,25 +7,18 @@ const currentMap = JSON.parse(utils.loadData("config.json")).map;
 
 async function main(bagNum){
 
+
+    console.log("Running: Bag " + bagNum);
+
     let days = JSON.parse(utils.loadData("config.json")).days;
     let response = await api.getMap(apiKey, currentMap);
     
-    const prices = [];
-    const refunds = [];
+    const prices = [0.1, 4, 6];
+    const refunds = [0.1,0.4,0.8];
     const recycles = [true, false];
     const bagType = bagNum;
 
     let subs = [];
-
-    for (let i = 0; i <= 2; i++) {
-        if( i == 0 ){
-            prices.push(i+0.1);
-            refunds.push(i+0.1);
-        } else {
-            prices.push(i*2);
-            refunds.push(i*2)
-        }
-    }
 
     for (const recycleRefundChoice of recycles) {
         for (const refundAmount of refunds) {
@@ -56,35 +49,30 @@ async function main(bagNum){
         
         for( const high of highest )
         {
-            let highscore = await getLargestDiff(high.solution, high.score);
-            let newScore = await getLargestDiff(highscore.solution, highscore.score);
+            let highscore = await getHighestScore(high.solution, high.score);
+            let newScore = await getHighestScore(highscore.solution, highscore.score);
 
             console.log("initiating while loop");
-            console.log(newScore > highscore);
+            console.log(newScore.score.score > highscore.score.score);
 
-            while( newScore > highscore){
+            while( newScore.score.score > highscore.score.score){
+                console.log(highscore.score.score);
+                console.log(newScore.score.score);
                 highscore = newScore;
-                newScore = await getLargestDiff(highscore.solution, highscore.score);
+                newScore = await getHighestScore(highscore.solution, highscore.score);
             }
-
-            console.log("Highscore: " + highscore);
+            console.log(highscore);
         }
-
     }
 
 
-async function getLargestDiff(oldSolution, oldScore){
+async function getHighestScore(oldSolution, oldScore, diff){
 
     let solutions = [];
-
-    const diff = 0.5;
 
     for (let i = 0; i < 8; i++) {
         solutions.push({...oldSolution});
     }
-
-    console.log("METHOD SOLUTIONS");
-    console.log("");
 
     for (let i = 0; i < solutions.length; i++) {
         let solution = solutions[i];
@@ -132,7 +120,8 @@ async function getLargestDiff(oldSolution, oldScore){
                     solution.refundAmount -= diff;
                 break;
         }
-
+        solution.bagPrice = round(solution.bagPrice, 4);
+        solution.refundAmount = round(solution.refundAmount, 4);
         let score = await api.submitGame(apiKey, currentMap, solution);
         let newSolution = {solution: {...solution}, score: score};
         newSolution.method = i;
@@ -141,6 +130,12 @@ async function getLargestDiff(oldSolution, oldScore){
     solutions.sort( (a,b) => b.score.score-a.score.score);
     return solutions[0];
 }
+
+function round(value, precision) {
+    var multiplier = Math.pow(10, precision || 0);
+    return Math.round(value * multiplier) / multiplier;
+}
+
 
 module.exports = {
     main

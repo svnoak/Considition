@@ -1,5 +1,5 @@
 const main = require("./main");
 
-const bagType = 1;
+const bagType = 5;
 
 main.main(bagType);
