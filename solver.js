@@ -1,8 +1,8 @@
 ﻿const {isUndefined} = require("axios/lib/utils");
 
-let bagType_price = [1.7, 1.75, 6, 25, 200];
-let bagType_co2_production = [5, 7, 3, 6, 20];
-let bagType_co2_transport = [50, 40, 60, 70, 100];
+let bagType_price = [1.7, 1.75, 6, 25, 250];
+let bagType_co2_production = [5, 7, 3, 6, 25];
+let bagType_co2_transport = [50, 40, 60, 70, 250];
 let solution = {};
 
 /**
@@ -20,10 +20,10 @@ function solve(map, sub, days) {
     solution.refundAmount = bagType_price[sub.bagType-1] * sub.refundAmount;
     solution.bagType = sub.bagType;
     
-    solution.orders = []
-    for (let day = 0; day < days; day++) {
+    solution.orders = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+/*     for (let day = 0; day < days; day++) {
         solution.orders.push(wasteMoney(sub.bagType, map.companyBudget));
-    }
+    } */
     return solution;
 }
 

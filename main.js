@@ -13,35 +13,20 @@ async function main(bagNum){
     let days = JSON.parse(utils.loadData("config.json")).days;
     let response = await api.getMap(apiKey, currentMap);
     
-    const prices = [0.1, 4, 6, 10];
-    const refunds = [0.1,0.4,0.8];
-    const recycles = [true, false];
-    const bagType = bagNum;
-
-    let subs = [];
-
-    for (const recycleRefundChoice of recycles) {
-        for (const refundAmount of refunds) {
-            for (const bagPrice of prices) {
-                subs.push({bagPrice, refundAmount, bagType, recycleRefundChoice});
-            }
-        }
+    solution = {
+        bagPrice: 1,
+        refundAmount: 1,
+        bagType: 1,
+        recycleRefundChoice: true
     }
 
-    let solutions = [];
-    for (const sub of subs) {
-        let solution = solver.solve(response, sub, days);
-        solutions.push({...solution});
-    }
-
-    let scores = [];
-    console.log("MAIN SOLUTIONS");
-    for (const solution of solutions) {
+        solution = solver.solve(currentMap, solution, days);    
         let score = await api.submitGame(apiKey, currentMap, solution);
-        console.log(score.score);
-
-        scores.push({solution: {...solution}, score});
+        console.log(solution);
+        console.log(score);
     }
+
+    /*
         scores.filter( e => e.score.score > 0 );
         scores.sort( (a,b) => b.score.score-a.score.score );
         
@@ -55,8 +40,7 @@ async function main(bagNum){
             highscore = await findScore(highscore, 0.01);
 
             console.log(highscore);
-            console.log(highscore.score.weekly);
-            /*
+            console.log(highscore.score.dailys);
             let highscore = await getHighestScore(high.solution, high.score, 0.5);
             let newScore = await getHighestScore(highscore.solution, highscore.score, 0.5);
 
@@ -79,9 +63,9 @@ async function main(bagNum){
                 newScore = await getHighestScore(highscore.solution, highscore.score, 0.2);
             }
 
-            console.log(highscore);*/
+            console.log(highscore);
         }
-    }
+    } */
 
     async function findScore( high, diff ){
         console.log("Working with diff: " + diff);
