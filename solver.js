@@ -20,10 +20,12 @@ function solve(map, sub, days) {
     solution.refundAmount = bagType_price[sub.bagType-1] * sub.refundAmount;
     solution.bagType = sub.bagType;
     
-    solution.orders = []
-    for (let day = 0; day < days; day++) {
-        solution.orders.push(wasteMoney(sub.bagType, map.companyBudget));
+    solution.orders = [];
+    //solution.orders = [10,10,10,10,10,10,10,10,10,0,0,0,0,0,0,10,0,0,10,10,10,10,0,0,0,10,10,0,0,0,0]
+     for (let day = 0; day < days; day++) {
+        solution.orders.push(Math.round(wasteMoney(sub.bagType, map.companyBudget)));
     }
+        
     return solution;
 }
 

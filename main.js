@@ -4,6 +4,7 @@ const utils = require("./utils");
 
 const apiKey = utils.loadData("key.txt");
 const currentMap = JSON.parse(utils.loadData("config.json")).map;
+console.log(currentMap);
 
 async function main(bagNum){
 
@@ -31,6 +32,8 @@ async function main(bagNum){
     let solutions = [];
     for (const sub of subs) {
         let solution = solver.solve(response, sub, days);
+        solution.bagPrice = round(solution.bagPrice, 3);
+        solution.refundAmount = round(solution.refundAmount, 3);
         solutions.push({...solution});
     }
 
@@ -45,42 +48,29 @@ async function main(bagNum){
         scores.filter( e => e.score.score > 0 );
         scores.sort( (a,b) => b.score.score-a.score.score );
         
-        const highest = scores.slice(0,3);
-        
-        for( const high of highest )
-        {
+        let highest = scores.slice(0,3);
+
+        for (let i = 0; i < highest.length; i++) {
+            const high = highest[i];
             let highscore = await findScore(high, 0.5);
             highscore = await findScore(highscore, 0.2);
             highscore = await findScore(highscore, 0.1);
             highscore = await findScore(highscore, 0.01);
 
-            console.log(highscore);
-            console.log(highscore.score.weekly);
-            /*
-            let highscore = await getHighestScore(high.solution, high.score, 0.5);
-            let newScore = await getHighestScore(highscore.solution, highscore.score, 0.5);
-
-            console.log("initiating while loop");
-            console.log(newScore.score.score > highscore.score.score);
-
-            while( newScore.score.score > highscore.score.score){
-                highscore = newScore;
-                newScore = await getHighestScore(highscore.solution, highscore.score, 0.5);
-            }
-
-            highscore = await getHighestScore(high.solution, high.score, 0.2);
-            newScore = await getHighestScore(highscore.solution, highscore.score, 0.2);
-
-            console.log("initiating while loop");
-            console.log(newScore.score.score > highscore.score.score);
-
-            while( newScore.score.score > highscore.score.score){
-                highscore = newScore;
-                newScore = await getHighestScore(highscore.solution, highscore.score, 0.2);
-            }
-
-            console.log(highscore);*/
+            highest[i] = {...highscore};
         }
+
+        console.log("BEST RESULTS FROM METHODS");
+        console.log(highest);
+
+        unique = highest
+            .map(e => e.solution['bagPrice']+"_"+e.solution['refundAmount'])
+            .map((e, i, final) => final.indexOf(e) === i && i)
+            .filter(obj=> highest[obj])
+            .map(e => highest[e]);
+
+        unique.sort( (a,b) => b.score.score-a.score.score );
+        utils.storeData(unique, `results_bag${bagNum}.json`);
     }
 
     async function findScore( high, diff ){
