@@ -27,6 +27,7 @@ async function main(bagNum){
         console.log("SUBS EXIST");
         unique = JSON.parse(subs);
     } else {
+        console.log("CREATING SUBS");
         const prices = [0.1, 4, 6, 10];
         const refunds = [0.1,0.4,0.8];
         const recycles = [true, false];
@@ -72,9 +73,6 @@ async function main(bagNum){
             utils.storeData(highscore, `results_bag${bagNum}.json`, false);
         }
 
-        console.log("BEST RESULTS FROM METHODS");
-        console.log(highest);
-
         unique = highest
             .map(e => e.solution['bagPrice']+"_"+e.solution['refundAmount'])
             .map((e, i, final) => final.indexOf(e) === i && i)
@@ -85,8 +83,20 @@ async function main(bagNum){
         utils.storeData(unique, `results_bag${bagNum}.json`, true);
     }
 
-        for (const solution of unique) {
-            let bestDaily = solution.score.dailys;
+        console.log("STARTING ORDERS ALGORITHM");
+        for (let i = 0; i < unique.length; i++) {
+            const high = unique[i];
+            
+            let highscore = await findOrders(high, 200);
+            highscore = await findOrders(highscore, 100);
+            highscore = await findOrders(highscore, 50);
+            highscore = await findOrders(highscore, 25);
+            highscore = await findOrders(highscore, 10);
+            highscore = await findOrders(highscore, 1);
+
+            unique[i] = {...highscore};
+            unique.sort( (a,b) => b.score.score-a.score.score );
+            console.log(unique[0].score.score);
 
             /**
              * Skit i solve filen!
@@ -98,13 +108,68 @@ async function main(bagNum){
              * 
              * Tänker det är bra att mäta minst en hel månad, men får se hur många submits det blir då...
              */
-            for (let i = 0; i < 10; i++) {
-                let newSolution = orders.solve(response, solution, bestDaily, days);
-                let newScore = await api.submitGame(apiKey, currentMap, newSolution);
-                console.log(newScore.score);
-            }
         }
         
+    }
+
+    async function findOrders( high, diff, response ){
+        console.log(high.solution.orders);
+
+        console.log( "ORDERS working with diff: " + diff );
+        let highscore = await getOrderAmount(high, diff);
+        let newScore = await getOrderAmount(highscore, diff);
+
+        while( newScore.score.score > highscore.score.score ){
+            highscore = newScore;
+            newScore = await getOrderAmount(highscore, diff);
+        }
+        return highscore;
+    }
+
+    async function getOrderAmount(high, diff){
+        let solutions = [];
+        let oldOrders = high.solution.orders;
+
+        let maxDiff = true;
+        let count = 0;
+        singleOrder = oldOrders[0];
+
+        while( maxDiff ){
+            if( singleOrder - diff*count > 0 ){
+                singleOrder -= diff*count;
+                count++;
+            } else {
+                maxDiff = false;
+            }
+        }
+
+        for( let i = 0; i < count; i++ ){
+            solutions.push({...high});
+        }
+
+        for( let i = 0; i < solutions.length; i++ ){
+            let solution = solutions[i].solution;
+
+            solutions[i].solution.orders = [];
+
+            if( oldOrders[0] - diff*i > 0 ){
+                for( let k = 0; k < days; k++ ){
+                    solutions[i].solution.orders.push(oldOrders[0]- diff*i); 
+                }
+            }
+            let newScore = await api.submitGame(apiKey, currentMap, solution);
+            solutions[i] = {solution: {...solution}, score: newScore};
+        }
+        solutions.sort( (a,b) => b.score.score-a.score.score);
+
+        console.log("SOLUTIONS");
+        solutions.forEach( e => {
+            console.log("SCORE: " + e.score.score)
+            console.log(e.solution.orders) 
+        
+        });
+
+        return solutions[0];
     }
 
     async function findScore( high, diff, response ){
@@ -113,13 +178,10 @@ async function main(bagNum){
         let highscore = await getHighestScore(high.solution, high.score, diff, response);
         let newScore = await getHighestScore(highscore.solution, highscore.score, diff, response);
 
-        while( newScore.score.score > highscore.score.score){
+        while( newScore.score.score > highscore.score.score ){
             highscore = newScore;
             newScore = await getHighestScore(highscore.solution, highscore.score, diff, response);
-            console.log(newScore.score.score);
         }
-        
-        console.log(highscore.score.score);
         return highscore;
     }
 
