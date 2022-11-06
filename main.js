@@ -112,15 +112,18 @@ async function findInterval(solution) {
     console.log("FINDIN INTERVAL");
 
     let order = solution.solution.orders[0];
-    solution.solution.orders = JSON.parse(utils.loadData('order.json'));
+    solution.solution.orders = [];
 
-    for( let i = 0; i < days; i++ ){
-        if( i < 1 ){
-            solution.solution.orders.push(order);
-        } else {
-            solution.solution.orders.push(0);
+
+    if( solution.solution.orders.length < 1 ){
+        for( let i = 0; i < days; i++ ){
+            if( i < 1 ){
+                solution.solution.orders.push(order);
+            } else {
+                solution.solution.orders.push(0);
+            }
         }
-    }
+    }   
 
     let condition = true;
 
@@ -135,11 +138,11 @@ async function findInterval(solution) {
         
         for( let i = 0; i < newScore.dailys.length; i++){
             console.log(i);
-            newDay = newScore.dailys[i].customerScore;
-            oldDay = solution.score.dailys[i].customerScore;
+            newDay = newScore.dailys[i];
+            oldDay = solution.score.dailys[i];
             console.log("------------------------------------------");
             console.log("CustomerScores:")
-            console.log(oldDay, newDay);
+            console.log(oldDay.customerScore, newDay.customerScore);
             console.log("");
             console.log("Bags: " + solution.solution.orders[i]);
             console.log("");
@@ -147,17 +150,21 @@ async function findInterval(solution) {
             console.log(solution.score.dailys[i].c02, newScore.dailys[i].c02);
             console.log("");
             console.log("TOTAL SCORE")
-            console.log(oldDay-solution.score.dailys[i].c02, newDay-newScore.dailys[i].c02);
+            console.log(oldDay.customerScore-solution.score.dailys[i].c02, newDay.customerScore-newScore.dailys[i].c02);
             console.log("");
             console.log("POTENTIAL SCORE")
-            console.log(oldDay-newScore.dailys[i].c02);
+            console.log(oldDay.customerScore-newScore.dailys[i].c02);
             console.log("------------------------------------------");
-            if( oldDay > newDay ){
-                solution.solution.orders[i] +=20;
-                
+            if( oldDay.customerScore > newDay.customerScore && oldDay.c02 > newDay.c02 ){
+                solution.solution.orders[i] +=10;
                 console.log(solution.solution.orders[i]);
                 break;
             }
+
+            /**
+             * TODO
+             * CREATE ORDER.JSON FILES FOR EACH UNIQUE SOLUTION
+             */
             utils.storeData(solution.solution.orders, 'order.json');
 
             if( i == newScore.dailys.length-1 ){
