@@ -87,7 +87,7 @@ async function main(bagNum){
     /**
      * FINDS MINIMUM NEEDED BAGS
      */
-        console.log("STARTING ORDERS ALGORITHM");
+        /* console.log("STARTING ORDERS ALGORITHM");
         for (let i = 0; i < unique.length; i++) {
             const high = unique[i];
             
@@ -99,20 +99,20 @@ async function main(bagNum){
             highscore = await findOrders(highscore, 1);
 
             unique[i] = {...highscore};
-    }
+    } */
 
-    utils.storeData(unique, `results_bag${bagNum}.json`, true);
-    
+   // utils.storeData(unique, `results_bag${bagNum}.json`, true);
 
 
-    let minimumInterval = await findInterval();
+    let data = JSON.parse(utils.loadData(`results_bag${bagNum}.json`));
+    let minimumInterval = await findInterval(data[0]);
 }
 
 async function findInterval(solution) {
     console.log("FINDIN INTERVAL");
 
     let order = solution.solution.orders[0];
-    solution.solution.orders = [];
+    solution.solution.orders = JSON.parse(utils.loadData('order.json'));
 
     for( let i = 0; i < days; i++ ){
         if( i < 1 ){
@@ -137,13 +137,29 @@ async function findInterval(solution) {
             console.log(i);
             newDay = newScore.dailys[i].customerScore;
             oldDay = solution.score.dailys[i].customerScore;
+            console.log("------------------------------------------");
+            console.log("CustomerScores:")
             console.log(oldDay, newDay);
+            console.log("");
+            console.log("Bags: " + solution.solution.orders[i]);
+            console.log("");
+            console.log("CO2");
+            console.log(solution.score.dailys[i].c02, newScore.dailys[i].c02);
+            console.log("");
+            console.log("TOTAL SCORE")
+            console.log(oldDay-solution.score.dailys[i].c02, newDay-newScore.dailys[i].c02);
+            console.log("");
+            console.log("POTENTIAL SCORE")
+            console.log(oldDay-newScore.dailys[i].c02);
+            console.log("------------------------------------------");
             if( oldDay > newDay ){
                 solution.solution.orders[i] +=20;
                 
                 console.log(solution.solution.orders[i]);
                 break;
             }
+            utils.storeData(solution.solution.orders, 'order.json');
+
             if( i == newScore.dailys.length-1 ){
                 condition = false;
                 console.log(solution.score.score, newScore.score);
