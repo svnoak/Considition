@@ -136,15 +136,15 @@ async function findInterval(solution) {
 
 	console.log("STARTING WHILE LOOP");
 
+	let lastCompromise = 0;
+
 	while (condition) {
 		console.log("GAME SUBMISSION");
 		let newScore = await api.submitGame(apiKey, currentMap, solution.solution);
 		submitCounter++;
 		console.log("GAME SUBMITTED");
 
-		
-
-		for (let i = 0; i < newScore.dailys.length; i++) {
+		for (let i = lastCompromise; i < newScore.dailys.length; i++) {
 			newDay = newScore.dailys[i];
 			oldDay = solution.score.dailys[i];
 
@@ -175,15 +175,38 @@ async function findInterval(solution) {
 			/**
 			 * Jag kan få det bästa resultat med minst antalet påsar
 			 * Hur vet loopen att det var det bästa resultatet?
-			 * Jag borde kanske göra en array med daily scores och jämföra. 
+			 * Jag borde kanske göra en array med daily scores och jämföra.
 			 * Om den gick ner igen, ta den senaste och fortsätt till nästa.
 			 */
 
-				if( newDay.negativeCustomerScore < 0 ){
-					solution.solution.orders[i] += Math.abs(newDay.negativeCustomerScore)/10;
-					console.log("ADDING BAGS");
-					break;
+			 let oldCo2Orders = solution.solution.orders;
+			 let oldCo2Solution  = {...solution.solution};
+			 oldCo2Solution.orders = oldCo2Orders;
+
+			 let oldCo2 = newScore;
+			 let newCo2;
+
+			 if( newDay.negativeCustomerScore < 0 ){
+				solution.solution.orders[i] += Math.abs(newDay.negativeCustomerScore)/10;
+				console.log("ADDING BAGS");
+				break;
+			}
+
+
+			for( let k = 1; k < 4; k++ ){
+				if( newDay.negativeCustomerScore == 0 ){
+					newCo2Solution = {...oldCo2Solution};
+					if( newCo2Solution.orders[i] - k > 0 )
+						newCo2Solution.orders[i] -= k;
+					newCo2 = await api.submitGame(apiKey, currentMap, newCo2Solution);
+
+					if( newCo2.dailys[i].c02 - oldCo2.dailys[i].c02 < newScore.negativeCustomerScore ){
+						oldCo2 = {...newCo2};
+						oldCo2Solution = {...newCo2Solution};
+					}
 				}
+			}
+			lastCompromise = i;
 
 
 			/* if( budgetCondition ){
