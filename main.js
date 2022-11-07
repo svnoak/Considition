@@ -10,21 +10,23 @@ let bagType_co2_transport = [50, 40, 60, 70, 100];
 const apiKey = utils.loadData("key.txt");
 const currentMap = JSON.parse(utils.loadData("config.json")).map;
 let days = JSON.parse(utils.loadData("config.json")).days;
+let bagNum;
 
 async function main(bagNum) {
 	let response = await api.getMap(apiKey, currentMap);
 	console.log("Running: Bag " + bagNum);
 
-	let subs = utils.loadData(`results_bag${bagNum}.json`);
+	let subs = JSON.parse(utils.loadData(`results_bag${bagNum}.json`));
+
 	let unique;
 
 	/**
 	 * If there is no data since before, we need to run the algorithm from scratch to generate the data.
 	 */
-	if (subs != undefined) {
-		console.log("SUBS EXIST");
-		unique = JSON.parse(subs);
-	} else {
+
+    console.log(subs.length);
+
+	if (subs.length < 1) {
 		console.log("CREATING SUBS");
 		const prices = [0.1, 4, 6, 10];
 		const refunds = [0.1, 0.4, 0.8];
@@ -163,7 +165,7 @@ async function findInterval(solution) {
 			 * TODO
 			 * CREATE ORDER.JSON FILES FOR EACH UNIQUE SOLUTION
 			 */
-			utils.storeData(solution.solution.orders, "order.json");
+			utils.storeData(solution.solution.orders, `order_bag${bagNum}.json`);
 
 			if (i == newScore.dailys.length - 1) {
 				condition = false;
@@ -181,6 +183,7 @@ async function findOrders(high, diff) {
 	while (newScore.score.score > highscore.score.score) {
 		highscore = newScore;
 		newScore = await getOrderAmount(highscore, diff);
+        console.log(highscore.score);
 	}
 	return highscore;
 }
@@ -221,6 +224,7 @@ async function findScore(high, diff, response) {
 	while (newScore.score.score > highscore.score.score) {
 		highscore = newScore;
 		newScore = await getHighestScore(highscore.solution, highscore.score, diff, response);
+        console.log(highscore.score);
 	}
 	return highscore;
 }
