@@ -119,7 +119,7 @@ async function main(bagNum) {
 async function findInterval(solution) {
 	console.log("FINDIN INTERVAL");
 
-	let order = solution.solution.orders[0];
+	let order = 0;
 	solution.solution.orders = [];
 
 	if (solution.solution.orders.length < 1) {
@@ -136,13 +136,9 @@ async function findInterval(solution) {
 
 	console.log("STARTING WHILE LOOP");
 
-	let dailyScores = [];
-	let bestScore = [];
-
 	while (condition) {
 		console.log("GAME SUBMISSION");
 		let newScore = await api.submitGame(apiKey, currentMap, solution.solution);
-		dailyScores.push(newScore.score);
 		submitCounter++;
 		console.log("GAME SUBMITTED");
 
@@ -183,9 +179,14 @@ async function findInterval(solution) {
 			 * Om den gick ner igen, ta den senaste och fortsätt till nästa.
 			 */
 
-			dailyScores.push(newScore);
+				if( newDay.negativeCustomerScore < 0 ){
+					solution.solution.orders[i] += Math.abs(newDay.negativeCustomerScore)/10;
+					console.log("ADDING BAGS");
+					break;
+				}
 
-			if( budgetCondition ){
+
+			/* if( budgetCondition ){
 				solution.solution.orders[i] += 15;
 				console.log("Budget too low, adding bags.");
 				break;
@@ -214,7 +215,7 @@ async function findInterval(solution) {
 					console.log("Emissions rising, no bags to remove");
 				}
 				break;
-			}
+			} */
 /*
 			else if( negativeCondition ){
 				solution.solution.orders[i-1] += Math.abs(newDay.negativeCustomerScore)/10;
