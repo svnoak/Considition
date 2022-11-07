@@ -10,7 +10,8 @@ let bagType_co2_transport = [50, 40, 60, 70, 100];
 const apiKey = utils.loadData("key.txt");
 const currentMap = JSON.parse(utils.loadData("config.json")).map;
 let days = JSON.parse(utils.loadData("config.json")).days;
-let bagNum;
+let bagType;
+let submitCounter = 0;
 
 async function main(bagNum) {
 	let response = await api.getMap(apiKey, currentMap);
@@ -31,7 +32,7 @@ async function main(bagNum) {
 		const prices = [0.1, 4, 6, 10];
 		const refunds = [0.1, 0.4, 0.8];
 		const recycles = [true, false];
-		const bagType = bagNum;
+		bagType = bagNum;
 		console.log(subs);
 		for (const recycleRefundChoice of recycles) {
 			for (const refundAmount of refunds) {
@@ -53,6 +54,7 @@ async function main(bagNum) {
 		console.log(solutions.length);
 		for (const solution of solutions) {
 			let score = await api.submitGame(apiKey, currentMap, solution);
+			submitCounter++;
 			console.log(score.score);
 
 			scores.push({ solution: { ...solution }, score });
@@ -70,7 +72,7 @@ async function main(bagNum) {
 			highscore = await findScore(highscore, 0.01, response);
 
 			highest[i] = { ...highscore };
-			utils.storeData(highscore, `results_bag${bagNum}.json`, false);
+			utils.storeData(highscore, `results_bag${bagType}.json`, false);
 		}
 
 		unique = highest
@@ -80,12 +82,18 @@ async function main(bagNum) {
 			.map((e) => highest[e]);
 
 		unique.sort((a, b) => b.score.score - a.score.score);
-		utils.storeData(unique, `results_bag${bagNum}.json`, true);
+		utils.storeData(unique, `results_bag${bagType}.json`, true);
 	}
 
 	/**
 	 * FINDS MINIMUM NEEDED BAGS
 	 */
+
+	unique = JSON.parse(utils.loadData(`results_bag${bagType}.json`));
+
+	console.log("LOLOLOO");
+	console.log(unique);
+
 	console.log("STARTING ORDERS ALGORITHM");
 	for (let i = 0; i < unique.length; i++) {
 		const high = unique[i];
@@ -100,9 +108,13 @@ async function main(bagNum) {
 		unique[i] = { ...highscore };
 	}
 
-	utils.storeData(unique, `results_bag${bagNum}.json`, true);
+	utils.storeData(unique, `results_bag${bagType}.json`, true);
 
-	// let data = JSON.parse(utils.loadData(`results_bag${bagNum}.json`));
+	unique = JSON.parse(utils.loadData(`results_bag${bagType}.json`));
+
+	console.log(unique);
+
+	// let data = JSON.parse(utils.loadData(`results_bag${bagType}.json`));
 	let minimumInterval = await findInterval(unique[0]);
 }
 
@@ -129,6 +141,7 @@ async function findInterval(solution) {
 	while (condition) {
 		console.log("GAME SUBMISSION");
 		let newScore = await api.submitGame(apiKey, currentMap, solution.solution);
+		submitCounter++;
 		console.log("GAME SUBMITTED");
 
 		console.log(newScore.dailys.length);
@@ -139,7 +152,10 @@ async function findInterval(solution) {
 			oldDay = solution.score.dailys[i];
 			console.log("------------------------------------------");
 			console.log("CustomerScores:");
+			console.log("Positive:");
 			console.log(oldDay.positiveCustomerScore, newDay.positiveCustomerScore);
+			console.log("Negative:")
+			console.log(oldDay.negativeCustomerScore, newDay.negativeCustomerScore);
 			console.log("");
 			console.log("Bags: " + solution.solution.orders[i]);
 			console.log("");
@@ -148,8 +164,8 @@ async function findInterval(solution) {
 			console.log("");
 			console.log("TOTAL SCORE");
 			console.log(
-				oldDay.positiveCustomerScore - solution.score.dailys[i].c02,
-				newDay.positiveCustomerScore - newScore.dailys[i].c02
+				oldDay.positiveCustomerScore - oldDay.negativeCustomerScore - solution.score.dailys[i].c02,
+				newDay.positiveCustomerScore - newDay.negativeCustomerScore - newScore.dailys[i].c02
 			);
 			console.log("");
 			console.log("POTENTIAL SCORE");
@@ -159,17 +175,21 @@ async function findInterval(solution) {
 				solution.solution.orders[i] += 10;
 				console.log(solution.solution.orders[i]);
 				break;
+			} else if( oldDay.negativeCustomerScore > newDay.negativeCustomerScore && oldDay.companyBudget > newDay.companyBudget ){
+				solution.solution.orders[i] -= 5;
+				break;
 			}
 
 			/**
 			 * TODO
 			 * CREATE ORDER.JSON FILES FOR EACH UNIQUE SOLUTION
 			 */
-			utils.storeData(solution.solution.orders, `order_bag${bagNum}.json`);
+			utils.storeData(solution.solution.orders, `order_bag${bagType}.json`);
 
 			if (i == newScore.dailys.length - 1) {
 				condition = false;
 				console.log(solution.score.score, newScore.score);
+				console.log("TOTAL SUBMITS: " +submitCounter);
 			}
 		}
 	}
@@ -183,10 +203,14 @@ async function findOrders(high, diff) {
 	while (newScore.score.score > highscore.score.score) {
 		highscore = newScore;
 		newScore = await getOrderAmount(highscore, diff);
-        console.log(highscore.score);
+        console.log(highscore.score.score);
 	}
 	return highscore;
 }
+
+/**
+ * HÄR KOLLAR VI OCKSÅ BARA SCORE! MEN VI KANSKE BORDE KOLLA PÅ NEGATIVE OCH POSITIVE CS FÖR ATT FÅ FRAM BÄST RESULTAT?
+ */
 
 async function getOrderAmount(high, diff) {
 	let oldOrders = high.solution.orders;
@@ -203,6 +227,7 @@ async function getOrderAmount(high, diff) {
 		}
 
 		let newScore = await api.submitGame(apiKey, currentMap, solution);
+		submitCounter++;
 		let newObject = { solution: { ...solution }, score: newScore };
 
 		if (newScore.score >= solutionsArray[count].score.score) {
@@ -279,6 +304,7 @@ async function getHighestScore(oldSolution, oldScore, diff, response) {
 		solution.bagPrice = round(solution.bagPrice, 4);
 		solution.refundAmount = round(solution.refundAmount, 4);
 		let score = await api.submitGame(apiKey, currentMap, solution);
+		submitCounter++;
 
 		let newSolution = { solution: { ...solution }, score: score };
 		newSolution.method = i;

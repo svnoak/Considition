@@ -41,7 +41,7 @@
             "mapName": "FancyVille"
         },
         "score": {
-            "gameId": "6c164eda-e34b-408d-6c29-08dac093e3ad",
+            "gameId": "8c180441-4d93-474d-f67a-08dac093e3b0",
             "score": 10717,
             "totalProducedBags": 1271,
             "totalDestroyedBags": 41,
@@ -233,7 +233,7 @@
                     "positiveCustomerScore": 18890
                 }
             ],
-            "visualizer": "https://visualizer.considition.com/visualizer/6c164eda-e34b-408d-6c29-08dac093e3ad"
+            "visualizer": "https://visualizer.considition.com/visualizer/8c180441-4d93-474d-f67a-08dac093e3b0"
         }
     },
     {
@@ -278,7 +278,7 @@
             "mapName": "FancyVille"
         },
         "score": {
-            "gameId": "a314a0c0-f352-433e-872b-08dac093e3ad",
+            "gameId": "6037cf82-f23d-4aaa-f690-08dac093e3b0",
             "score": 10717,
             "totalProducedBags": 1271,
             "totalDestroyedBags": 41,
@@ -470,7 +470,7 @@
                     "positiveCustomerScore": 18890
                 }
             ],
-            "visualizer": "https://visualizer.considition.com/visualizer/a314a0c0-f352-433e-872b-08dac093e3ad"
+            "visualizer": "https://visualizer.considition.com/visualizer/6037cf82-f23d-4aaa-f690-08dac093e3b0"
         }
     },
     {
@@ -515,7 +515,7 @@
             "mapName": "FancyVille"
         },
         "score": {
-            "gameId": "b07fb8b0-fbc8-4732-a059-08dac093e3ad",
+            "gameId": "dbdfa38a-2645-4e8f-f6a6-08dac093e3b0",
             "score": 10717,
             "totalProducedBags": 1271,
             "totalDestroyedBags": 41,
@@ -707,7 +707,7 @@
                     "positiveCustomerScore": 18890
                 }
             ],
-            "visualizer": "https://visualizer.considition.com/visualizer/b07fb8b0-fbc8-4732-a059-08dac093e3ad"
+            "visualizer": "https://visualizer.considition.com/visualizer/dbdfa38a-2645-4e8f-f6a6-08dac093e3b0"
         }
     }
 ]
