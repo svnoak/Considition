@@ -44,6 +44,83 @@ function holdMoney(bagtype, companyBudget, population, days) {
     return Math.floor(companyBudget / bagType_price[bagtype-1] / population*2 / days);
 }
 
+
+async function findScore(high, diff, response) {
+	console.log("Working with diff: " + diff);
+
+	let highscore = await getHighestScore(high.solution, high.score, diff, response);
+	let newScore = await getHighestScore(highscore.solution, highscore.score, diff, response);
+
+	while (newScore.score.score > highscore.score.score) {
+		highscore = newScore;
+		newScore = await getHighestScore(highscore.solution, highscore.score, diff, response);
+		console.log(highscore.score);
+	}
+	return highscore;
+}
+
+async function getHighestScore(oldSolution, oldScore, diff, response) {
+	let solutions = [];
+
+	for (let i = 0; i < 8; i++) {
+		solutions.push({ ...oldSolution });
+	}
+
+	for (let i = 0; i < solutions.length; i++) {
+		let solution = solutions[i];
+
+		switch (i) {
+			case 0: // Method 0
+				if (solution.refundAmount - diff > 0) solution.refundAmount -= diff;
+				break;
+
+			case 1: // Method 1
+				solution.refundAmount += diff;
+				break;
+
+			case 2: // Method 2
+				if (solution.bagPrice - diff > 0) solution.bagPrice -= diff;
+				break;
+
+			case 3: // Method 3
+				solution.bagPrice += diff;
+				break;
+
+			case 4: // Method 4
+				solution.bagPrice += diff;
+				solution.refundAmount += diff;
+				break;
+
+			case 5: // Method 5
+				if (solution.bagPrice - diff > 0) solution.bagPrice -= diff;
+				solution.refundAmount += diff;
+				break;
+
+			case 6: // Method 6
+				solution.bagPrice += diff;
+				if (solution.refundAmount - diff > 0) solution.refundAmount -= diff;
+				break;
+
+			case 7: // Method 7
+				if (solution.bagPrice - diff > 0) solution.bagPrice -= diff;
+				if (solution.refundAmount - diff > 0) solution.refundAmount -= diff;
+				break;
+		}
+		solution.bagPrice = utils.round(solution.bagPrice, 4);
+		solution.refundAmount = utils.round(solution.refundAmount, 4);
+		let score = await api.submitGame(apiKey, currentMap, solution);
+		submitCounter++;
+
+		let newSolution = { solution: { ...solution }, score: score };
+		newSolution.method = i;
+		solutions[i] = newSolution;
+	}
+	solutions.sort((a, b) => b.score.score - a.score.score);
+	console.log(solutions[0].score.score);
+	return solutions[0];
+}
+
 module.exports = {
-    solve
+    solve,
+    findScore
 }

@@ -15,11 +15,13 @@ let submitCounter = 0;
 
 async function main(bagNum) {
 	let response = await api.getMap(apiKey, currentMap);
+	bagType = bagNum;
+
 	console.log("Running: Bag " + bagNum);
 
 	let subs = JSON.parse(utils.loadData(`results_bag${bagNum}.json`));
 
-	let unique;
+	let unique = [];
 
 	/**
 	 * If there is no data since before, we need to run the algorithm from scratch to generate the data.
@@ -32,7 +34,6 @@ async function main(bagNum) {
 		const prices = [0.1, 4, 6, 10];
 		const refunds = [0.1, 0.4, 0.8];
 		const recycles = [true, false];
-		bagType = bagNum;
 		console.log(subs);
 		for (const recycleRefundChoice of recycles) {
 			for (const refundAmount of refunds) {
@@ -89,11 +90,10 @@ async function main(bagNum) {
 	 * FINDS MINIMUM NEEDED BAGS
 	 */
 
+	
+	/*
+
 	unique = JSON.parse(utils.loadData(`results_bag${bagType}.json`));
-
-	console.log("LOLOLOO");
-	console.log(unique);
-
 	console.log("STARTING ORDERS ALGORITHM");
 	for (let i = 0; i < unique.length; i++) {
 		const high = unique[i];
@@ -110,11 +110,9 @@ async function main(bagNum) {
 
 	utils.storeData(unique, `results_bag${bagType}.json`, true);
 
+	*/
 	unique = JSON.parse(utils.loadData(`results_bag${bagType}.json`));
 
-	console.log(unique);
-
-	// let data = JSON.parse(utils.loadData(`results_bag${bagType}.json`));
 	let minimumInterval = await findInterval(unique[0]);
 }
 
@@ -144,49 +142,55 @@ async function findInterval(solution) {
 		submitCounter++;
 		console.log("GAME SUBMITTED");
 
-		console.log(newScore.dailys.length);
-
 		for (let i = 0; i < newScore.dailys.length; i++) {
-			console.log(i);
 			newDay = newScore.dailys[i];
 			oldDay = solution.score.dailys[i];
-			console.log("------------------------------------------");
-			console.log("CustomerScores:");
-			console.log("Positive:");
-			console.log(oldDay.positiveCustomerScore, newDay.positiveCustomerScore);
-			console.log("Negative:");
-			console.log(oldDay.negativeCustomerScore, newDay.negativeCustomerScore);
-			console.log("");
-			console.log("Bags: " + solution.solution.orders[i]);
-			console.log("");
-			console.log("CO2");
-			console.log(solution.score.dailys[i].c02, newScore.dailys[i].c02);
-			console.log("");
-			console.log("TOTAL SCORE");
-			console.log(
-				oldDay.positiveCustomerScore - oldDay.negativeCustomerScore - solution.score.dailys[i].c02,
-				newDay.positiveCustomerScore - newDay.negativeCustomerScore - newScore.dailys[i].c02
-			);
-			console.log("");
-			console.log("POTENTIAL SCORE");
-			console.log(oldDay.positiveCustomerScore - newScore.dailys[i].c02);
-			console.log("------------------------------------------");
-			if (oldDay.positiveCustomerScore > newDay.positiveCustomerScore && oldDay.c02 > newDay.c02) {
-				solution.solution.orders[i] += 10;
-				console.log(solution.solution.orders[i]);
+
+			let day = i-1 > 0 ? i-1 : 0;
+			
+			let refundCondition = solution.solution.refundAmount * solution.solution.orders.map( (a,b) => a+b ) / 2;
+			let budgetCondition = newDay.companyBudget > refundCondition;
+			let negativeCondition = Math.abs(newScore.dailys[day].negativeCustomerScore) < Math.abs(newDay.negativeCustomerScore);
+			let positiveCondition = newDay.positiveCustomerScore < oldDay.positiveCustomerScore;
+			let emissionCondition = oldDay.c02 < newDay.c02;
+
+			let oldDailyScore = oldDay.positiveCustomerScore - Math.abs(oldDay.negativeCustomerScore) - oldDay.c02;
+			let newDailyScore = newDay.positiveCustomerScore - Math.abs(newDay.negativeCustomerScore) - newDay.c02;
+
+			console.log("---------");
+			console.log("Day: " + i);
+			console.log("Bags: ", solution.solution.orders[i] );
+			console.log("Budget: ", oldDay.companyBudget, newDay.companyBudget);
+			console.log("CO2: ", oldDay.c02, newDay.c02);
+			console.log("NCS: ", oldDay.negativeCustomerScore, newDay.negativeCustomerScore);
+			console.log("CS: ", oldDay.positiveCustomerScore, newDay.positiveCustomerScore);
+			console.log("Daily Score: ", Math.floor(oldDailyScore), Math.floor(newDailyScore));
+			console.log("---------");
+
+			if( budgetCondition ){
+				solution.solution.orders[i] += 15;
+				console.log("Budget too low, adding bags.");
 				break;
-			} else if (
-				oldDay.negativeCustomerScore > newDay.negativeCustomerScore &&
-				oldDay.companyBudget > newDay.companyBudget
-			) {
-				solution.solution.orders[i] -= 5;
+			} else if( negativeCondition ){
+				solution.solution.orders[i-1] += Math.abs(newDay.negativeCustomerScore)/10;
+				console.log("NegativeCustomerScore falling, adding bags.");
+				break;
+			} else if( positiveCondition ){
+				solution.solution.orders[i] += 12;
+				console.log("PositiveCustomerScore rising, adding bags.");
+				break;
+			} else if( emissionCondition ){
+				if( solution.solution.orders[i] -5 > 0){
+					solution.solution.orders[i] -= 5;
+					console.log("Emissions rising, remove bags.");
+				} else {
+					console.log("Emissions rising, no bags to remove");
+				}
 				break;
 			}
 
-			/**
-			 * TODO
-			 * CREATE ORDER.JSON FILES FOR EACH UNIQUE SOLUTION
-			 */
+			
+
 			utils.storeData(solution.solution.orders, `order_bag${bagType}.json`);
 
 			if (i == newScore.dailys.length - 1) {
@@ -206,8 +210,8 @@ async function findOrders(high, diff) {
 	while (newScore.score.score > highscore.score.score) {
 		highscore = newScore;
 		newScore = await getOrderAmount(highscore, diff);
-		console.log(highscore.score.score);
 	}
+	console.log(highscore.score.score);
 	return highscore;
 }
 
@@ -252,7 +256,7 @@ async function findScore(high, diff, response) {
 	while (newScore.score.score > highscore.score.score) {
 		highscore = newScore;
 		newScore = await getHighestScore(highscore.solution, highscore.score, diff, response);
-		console.log(highscore.score);
+		console.log(highscore.score.score);
 	}
 	return highscore;
 }
@@ -314,6 +318,7 @@ async function getHighestScore(oldSolution, oldScore, diff, response) {
 		solutions[i] = newSolution;
 	}
 	solutions.sort((a, b) => b.score.score - a.score.score);
+	console.log(solutions[0].score.score);
 	return solutions[0];
 }
 
@@ -330,6 +335,7 @@ function TableItem(old, newest) {
 	this.positiveCustomerScore = old.positiveCustomerScore;
 	this.positiveCustomerScore = newest.positiveCustomerScore;
 }
+
 function logTable(oldDailys, newDailys) {
 	let table = [];
 	for (let i = 0; i < oldDailys.length; i++) {

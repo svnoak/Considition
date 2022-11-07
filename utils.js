@@ -17,7 +17,31 @@ const loadData = (path) => {
     }
   }
 
+function TableItem(old, newest) {
+  this.c02 = old.c02;
+  this.c02 = newest.c02;
+  this.negativeCustomerScore = old.negativeCustomerScore;
+  this.negativeCustomerScore = newest.negativeCustomerScore;
+  this.positiveCustomerScore = old.positiveCustomerScore;
+  this.positiveCustomerScore = newest.positiveCustomerScore;
+}
+
+function logTable(oldDailys, newDailys) {
+  let table = [];
+  for (let i = 0; i < oldDailys.length; i++) {
+    table.push(new TableItem(oldDailys[i], newDailys[i]));
+  }
+  console.log(table);
+}
+
+function round(value, precision) {
+	var multiplier = Math.pow(10, precision || 0);
+	return Math.round(value * multiplier) / multiplier;
+}
+
 module.exports = {
     storeData,
-    loadData
+    loadData,
+    logTable,
+    round
 }
