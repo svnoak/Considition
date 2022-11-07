@@ -4,8 +4,8 @@ const utils = require("./utils");
 const orders = require("./optisolve");
 
 let bagType_price = [1.7, 1.75, 6, 25, 200];
-let bagType_co2_production = [5, 7, 3, 6, 20];
-let bagType_co2_transport = [50, 40, 60, 70, 100];
+let bagType_co2_production = [30, 24, 36, 42, 60];
+let bagType_co2_transport = [3, 4.2, 1.8, 3.6, 12];
 
 const apiKey = utils.loadData("key.txt");
 const currentMap = JSON.parse(utils.loadData("config.json")).map;
@@ -136,11 +136,17 @@ async function findInterval(solution) {
 
 	console.log("STARTING WHILE LOOP");
 
+	let dailyScores = [];
+	let bestScore = [];
+
 	while (condition) {
 		console.log("GAME SUBMISSION");
 		let newScore = await api.submitGame(apiKey, currentMap, solution.solution);
+		dailyScores.push(newScore.score);
 		submitCounter++;
 		console.log("GAME SUBMITTED");
+
+		
 
 		for (let i = 0; i < newScore.dailys.length; i++) {
 			newDay = newScore.dailys[i];
@@ -154,12 +160,15 @@ async function findInterval(solution) {
 			let positiveCondition = newDay.positiveCustomerScore < oldDay.positiveCustomerScore;
 			let emissionCondition = oldDay.c02 < newDay.c02;
 
+			let maxDailyScore = newDay.positiveCustomerScore + Math.abs(newDay.negativeCustomerScore);
+
 			let oldDailyScore = oldDay.positiveCustomerScore - Math.abs(oldDay.negativeCustomerScore) - oldDay.c02;
 			let newDailyScore = newDay.positiveCustomerScore - Math.abs(newDay.negativeCustomerScore) - newDay.c02;
 
 			console.log("---------");
 			console.log("Day: " + i);
 			console.log("Bags: ", solution.solution.orders[i] );
+			//console.log("Bags in Transport: ", bagsInTransport(newDay.c02, solution.solution.orders));
 			console.log("Budget: ", oldDay.companyBudget, newDay.companyBudget);
 			console.log("CO2: ", oldDay.c02, newDay.c02);
 			console.log("NCS: ", oldDay.negativeCustomerScore, newDay.negativeCustomerScore);
@@ -167,11 +176,47 @@ async function findInterval(solution) {
 			console.log("Daily Score: ", Math.floor(oldDailyScore), Math.floor(newDailyScore));
 			console.log("---------");
 
+			/**
+			 * Jag kan få det bästa resultat med minst antalet påsar
+			 * Hur vet loopen att det var det bästa resultatet?
+			 * Jag borde kanske göra en array med daily scores och jämföra. 
+			 * Om den gick ner igen, ta den senaste och fortsätt till nästa.
+			 */
+
+			dailyScores.push(newScore);
+
 			if( budgetCondition ){
 				solution.solution.orders[i] += 15;
 				console.log("Budget too low, adding bags.");
 				break;
-			} else if( negativeCondition ){
+			} else if( positiveCondition ){
+				solution.solution.orders[i] += Math.abs(newDay.negativeCustomerScore)/10;
+				console.log("PositiveCustomerScore rising, adding bags.");
+				break;
+			} else if( maxDailyScore / solution.solution.orders.reduce((a,b) => a+b, 0) == 10 ){
+				console.log("Optimal result, continue");
+				continue;
+			} else if( newDay.positiveCustomerScore == oldDay.positiveCustomerScore && negativeCondition ) {
+				solution.solution.orders[i-1] += Math.abs(newDay.negativeCustomerScore)/10;
+				console.log("CONDITION 1, add bags");
+				break;
+			} else if( newDay.positiveCustomerScore == oldDay.positiveCustomerScore && !negativeCondition ){
+				console.log("CONDITION 2, remove bags");
+				solution.solution.orders[i] -= 5;
+				break;
+			}
+			else if( emissionCondition ){
+				if( solution.solution.orders[i] -5 > 0){
+					solution.solution.orders[i] -= x;
+					x--;
+					console.log("Emissions rising, remove bags.");
+				} else {
+					console.log("Emissions rising, no bags to remove");
+				}
+				break;
+			}
+/*
+			else if( negativeCondition ){
 				solution.solution.orders[i-1] += Math.abs(newDay.negativeCustomerScore)/10;
 				console.log("NegativeCustomerScore falling, adding bags.");
 				break;
@@ -179,15 +224,7 @@ async function findInterval(solution) {
 				solution.solution.orders[i] += 12;
 				console.log("PositiveCustomerScore rising, adding bags.");
 				break;
-			} else if( emissionCondition ){
-				if( solution.solution.orders[i] -5 > 0){
-					solution.solution.orders[i] -= 5;
-					console.log("Emissions rising, remove bags.");
-				} else {
-					console.log("Emissions rising, no bags to remove");
-				}
-				break;
-			}
+			}*/
 
 			
 
@@ -200,6 +237,13 @@ async function findInterval(solution) {
 			}
 		}
 	}
+}
+
+function bagsInTransport(co2, orders){
+	const Ap = orders.reduce((a,b) => a+b, 0);
+	const Pcp = bagType_co2_production[bagType-1];
+	const Pct = bagType_co2_transport[bagType-1];
+	return (co2-( Ap * Pcp )) / Pct;
 }
 
 async function findOrders(high, diff) {
