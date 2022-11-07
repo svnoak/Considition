@@ -25,7 +25,7 @@ async function main(bagNum) {
 	 * If there is no data since before, we need to run the algorithm from scratch to generate the data.
 	 */
 
-    console.log(subs.length);
+	console.log(subs.length);
 
 	if (subs.length < 1) {
 		console.log("CREATING SUBS");
@@ -154,7 +154,7 @@ async function findInterval(solution) {
 			console.log("CustomerScores:");
 			console.log("Positive:");
 			console.log(oldDay.positiveCustomerScore, newDay.positiveCustomerScore);
-			console.log("Negative:")
+			console.log("Negative:");
 			console.log(oldDay.negativeCustomerScore, newDay.negativeCustomerScore);
 			console.log("");
 			console.log("Bags: " + solution.solution.orders[i]);
@@ -175,7 +175,10 @@ async function findInterval(solution) {
 				solution.solution.orders[i] += 10;
 				console.log(solution.solution.orders[i]);
 				break;
-			} else if( oldDay.negativeCustomerScore > newDay.negativeCustomerScore && oldDay.companyBudget > newDay.companyBudget ){
+			} else if (
+				oldDay.negativeCustomerScore > newDay.negativeCustomerScore &&
+				oldDay.companyBudget > newDay.companyBudget
+			) {
 				solution.solution.orders[i] -= 5;
 				break;
 			}
@@ -189,7 +192,7 @@ async function findInterval(solution) {
 			if (i == newScore.dailys.length - 1) {
 				condition = false;
 				console.log(solution.score.score, newScore.score);
-				console.log("TOTAL SUBMITS: " +submitCounter);
+				console.log("TOTAL SUBMITS: " + submitCounter);
 			}
 		}
 	}
@@ -203,7 +206,7 @@ async function findOrders(high, diff) {
 	while (newScore.score.score > highscore.score.score) {
 		highscore = newScore;
 		newScore = await getOrderAmount(highscore, diff);
-        console.log(highscore.score.score);
+		console.log(highscore.score.score);
 	}
 	return highscore;
 }
@@ -249,7 +252,7 @@ async function findScore(high, diff, response) {
 	while (newScore.score.score > highscore.score.score) {
 		highscore = newScore;
 		newScore = await getHighestScore(highscore.solution, highscore.score, diff, response);
-        console.log(highscore.score);
+		console.log(highscore.score);
 	}
 	return highscore;
 }
@@ -317,6 +320,22 @@ async function getHighestScore(oldSolution, oldScore, diff, response) {
 function round(value, precision) {
 	var multiplier = Math.pow(10, precision || 0);
 	return Math.round(value * multiplier) / multiplier;
+}
+
+function TableItem(old, newest) {
+	this.c02 = old.c02;
+	this.c02 = newest.c02;
+	this.negativeCustomerScore = old.negativeCustomerScore;
+	this.negativeCustomerScore = newest.negativeCustomerScore;
+	this.positiveCustomerScore = old.positiveCustomerScore;
+	this.positiveCustomerScore = newest.positiveCustomerScore;
+}
+function logTable(oldDailys, newDailys) {
+	let table = [];
+	for (let i = 0; i < oldDailys.length; i++) {
+		table.push(new TableItem(oldDailys[i], newDailys[i]));
+	}
+	console.log(table);
 }
 
 module.exports = {
