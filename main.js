@@ -167,7 +167,7 @@ async function main(bagNum) {
 		}
 	}
 
-	console.log("ALGORITHM DONEEEEE!")	
+	console.log("BAG "+ bagType +" ALGORITHM DONEEEEE!")	
 }
 
 async function findInterval(solution) {
