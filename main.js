@@ -18,7 +18,6 @@ let pathOrders;
 
 async function main(bagNum) {
     path = `./results/results_bag${bagNum}_${currentMap}.json`;
-    pathOrders = `./orders/orders_bag${bagNum}_${currentMap}.json`;
 
     fs.exists(path, function (isExist) {
   if (!isExist) {
@@ -188,6 +187,7 @@ async function findInterval(solution) {
 	}
 
 	let condition = true;
+    let totalCondition = 1;
 
 	console.log("STARTING WHILE LOOP");
 
@@ -201,7 +201,7 @@ async function findInterval(solution) {
         
 		console.log("GAME SUBMISSION");
 
-        solution.solution.orders[day] += 11;
+        solution.solution.orders[day] += 5;
         console.log(day);
 		let newScore = await api.submitGame(apiKey, currentMap, solution.solution);
         
@@ -243,7 +243,7 @@ async function findInterval(solution) {
             console.log("NCS is 0: ", newDay.negativeCustomerScore == 0);
             console.log("CO2 is lower: ", newDay.c02 < oldDay.c02);
 
-            utils.storeData(solution.solution.orders, pathOrders);
+            utils.storeData(solution.solution.orders, `./orders/orders_bag${bagNum}_${currentMap}_${totalCondition}.json`);
 
             if( newDay.positiveCustomerScore >= oldDay.positiveCustomerScore && 
                 newDay.negativeCustomerScore == 0 &&
@@ -254,8 +254,8 @@ async function findInterval(solution) {
                     highscore = newScore;
                     continue;
             } else {
-                if( saveScore.score > newDailyScore  ){
-                    solution.solution.orders[day] -= 11;
+                if( saveScore.score >= newDailyScore  ){
+                    solution.solution.orders[day] -= 1;
                     day++;
                     highscore = newScore;
                     continue;
@@ -265,6 +265,7 @@ async function findInterval(solution) {
                     condition = false;
                     console.log(solution.score.score, newScore.score);
                     console.log("TOTAL SUBMITS: " + submitCounter);
+                    totalcondition++;
                 }
                 console.log("BREAKING - ADDING BAG");
                 break;
