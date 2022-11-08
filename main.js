@@ -26,8 +26,13 @@ const currentMap = "FancyVille"; //Todo: Your map choice here
 // TODO: You bag type choice here. Unless changed, the bag type 1 will be selected.
 
 async function main() {
-	let days = 31;
-	let response = await api.getMap(apiKey, currentMap);
+	let days = 365;
+	//let response = await api.getMap(apiKey, currentMap);
+
+	let response = {
+		companyBudget: 1000,
+		population: 100
+	}
 
 	const dataCrunch = false;
 
