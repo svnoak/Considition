@@ -125,6 +125,7 @@ async function main(bagNum) {
 					console.log("STEP 2 COMPLETE - SAVING DATA");
 					stepTwoSuccess = true;
 			} catch (error) {
+				console.log(error);
 				console.log("STEP 2 FAILED - TRYING AGAIN")
 			}
 		}
@@ -347,15 +348,18 @@ async function findScore(high, diff, response) {
 	return highscore;
 }
 
+let solutionScores = [];
+
 async function getHighestScore(oldSolution, oldScore, diff, response) {
 	let solutions = [];
-
 	for (let i = 0; i < 8; i++) {
 		solutions.push({ ...oldSolution });
 	}
 
-	for (let i = 0; i < solutions.length; i++) {
+	for (let i = solutionScores.length; i < solutions.length; i++) {
+		console.log(solutionScores.length);
 		let solution = solutions[i];
+		console.log(solutionScores);
 
 		switch (i) {
 			case 0: // Method 0
@@ -396,12 +400,18 @@ async function getHighestScore(oldSolution, oldScore, diff, response) {
 		}
 		solution.bagPrice = round(solution.bagPrice, 4);
 		solution.refundAmount = round(solution.refundAmount, 4);
-		let score = await api.submitGame(apiKey, currentMap, solution);
-		submitCounter++;
-
-		let newSolution = { solution: { ...solution }, score: score };
-		newSolution.method = i;
-		solutions[i] = newSolution;
+		let  score = await api.submitGame(apiKey, currentMap, solution);
+		if (score) {
+			
+			console.log(score);
+			submitCounter++;
+	
+			let newSolution = { solution: { ...solution }, score: score };
+			newSolution.method = i;
+			solutions[i] = newSolution;
+				solutionScores[i] = newSolution;
+		}
+			
 	}
 	solutions.sort((a, b) => b.score.score - a.score.score);
 	console.log(solutions[0].score.score);
