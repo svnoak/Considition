@@ -1,716 +1,716 @@
 [
     {
         "solution": {
-            "recycleRefundChoice": true,
-            "bagPrice": 0.585,
-            "refundAmount": 1.3,
-            "bagType": 2,
-            "orders": [
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195,
-                195
-            ],
-            "mapName": "FancyVille"
-        },
-        "score": {
-            "gameId": "c44cc2ce-9c3e-4505-d99c-08dac10a4205",
-            "score": 11216,
-            "totalProducedBags": 1165,
-            "totalDestroyedBags": 521,
-            "dailys": [
-                {
-                    "companyBudget": 684.49,
-                    "c02": 520.8,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 440
-                },
-                {
-                    "companyBudget": 371.32,
-                    "c02": 1046.4,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 920
-                },
-                {
-                    "companyBudget": 55.81,
-                    "c02": 1567.2,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 1360
-                },
-                {
-                    "companyBudget": 30.81,
-                    "c02": 1924.8,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 1860
-                },
-                {
-                    "companyBudget": 30.31,
-                    "c02": 2025.6,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 2360
-                },
-                {
-                    "companyBudget": 26.3,
-                    "c02": 2119.2,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 2800
-                },
-                {
-                    "companyBudget": 29.3,
-                    "c02": 2215.2,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 3300
-                },
-                {
-                    "companyBudget": 49.27,
-                    "c02": 2623.2,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 4120
-                },
-                {
-                    "companyBudget": 49.41,
-                    "c02": 2791.2,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 4960
-                },
-                {
-                    "companyBudget": 47.21,
-                    "c02": 2954.4,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 5760
-                },
-                {
-                    "companyBudget": 49.68,
-                    "c02": 3213.6,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 6580
-                },
-                {
-                    "companyBudget": 50.99,
-                    "c02": 3384,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 7440
-                },
-                {
-                    "companyBudget": 50.55,
-                    "c02": 3556.8,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 8300
-                },
-                {
-                    "companyBudget": 51.86,
-                    "c02": 3830.4,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 9160
-                },
-                {
-                    "companyBudget": 38.55,
-                    "c02": 3976.8,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 9800
-                },
-                {
-                    "companyBudget": 39.83,
-                    "c02": 4111.2,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 10480
-                },
-                {
-                    "companyBudget": 43.45,
-                    "c02": 4441.2,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 11200
-                },
-                {
-                    "companyBudget": 38.89,
-                    "c02": 4575.6,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 11840
-                },
-                {
-                    "companyBudget": 39,
-                    "c02": 4707.6,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 12500
-                },
-                {
-                    "companyBudget": 39.11,
-                    "c02": 5058,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 13160
-                },
-                {
-                    "companyBudget": 41.56,
-                    "c02": 5194.8,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 13860
-                },
-                {
-                    "companyBudget": 30.56,
-                    "c02": 5310,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 14360
-                },
-                {
-                    "companyBudget": 26.55,
-                    "c02": 5575.2,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 14800
-                },
-                {
-                    "companyBudget": 28.38,
-                    "c02": 5668.8,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 15280
-                },
-                {
-                    "companyBudget": 23.78,
-                    "c02": 5755.2,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 15680
-                },
-                {
-                    "companyBudget": 0.9,
-                    "c02": 5944.8,
-                    "negativeCustomerScore": -780,
-                    "positiveCustomerScore": 16000
-                },
-                {
-                    "companyBudget": 25.47,
-                    "c02": 5995.2,
-                    "negativeCustomerScore": -780,
-                    "positiveCustomerScore": 16420
-                },
-                {
-                    "companyBudget": 23.2,
-                    "c02": 6074.4,
-                    "negativeCustomerScore": -780,
-                    "positiveCustomerScore": 16800
-                },
-                {
-                    "companyBudget": 47.25,
-                    "c02": 6201.6,
-                    "negativeCustomerScore": -780,
-                    "positiveCustomerScore": 17600
-                },
-                {
-                    "companyBudget": 29.25,
-                    "c02": 6452.4,
-                    "negativeCustomerScore": -780,
-                    "positiveCustomerScore": 18100
-                },
-                {
-                    "companyBudget": 26.99,
-                    "c02": 6543.6,
-                    "negativeCustomerScore": -780,
-                    "positiveCustomerScore": 18540
-                }
-            ],
-            "visualizer": "https://visualizer.considition.com/visualizer/c44cc2ce-9c3e-4505-d99c-08dac10a4205"
-        },
-        "step": 3
-    },
-    {
-        "solution": {
             "recycleRefundChoice": false,
-            "bagPrice": 0.855,
-            "refundAmount": 1.24,
+            "bagPrice": 0.175,
+            "refundAmount": 1.4,
             "bagType": 2,
             "orders": [
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160,
-                160
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571
             ],
             "mapName": "FancyVille"
         },
         "score": {
-            "gameId": "f7b676d3-a30c-4f2c-e9f2-08dac10a4205",
-            "score": 10518,
-            "totalProducedBags": 1278,
-            "totalDestroyedBags": 620,
+            "gameId": "71d9d903-38bd-4d2c-cc03-08dac10a4207",
+            "score": 1883,
+            "totalProducedBags": 4806,
+            "totalDestroyedBags": 142,
             "dailys": [
                 {
-                    "companyBudget": 757.62,
-                    "c02": 436.8,
+                    "companyBudget": 8.45,
+                    "c02": 1423.2,
                     "negativeCustomerScore": 0,
                     "positiveCustomerScore": 440
                 },
                 {
-                    "companyBudget": 518.66,
-                    "c02": 878.4,
+                    "companyBudget": 9.85,
+                    "c02": 1490.4,
                     "negativeCustomerScore": 0,
                     "positiveCustomerScore": 920
                 },
                 {
-                    "companyBudget": 276.28,
-                    "c02": 1315.2,
+                    "companyBudget": 8.8,
+                    "c02": 1555.2,
                     "negativeCustomerScore": 0,
                     "positiveCustomerScore": 1360
                 },
                 {
-                    "companyBudget": 0.632,
-                    "c02": 1917.6,
+                    "companyBudget": 8.8,
+                    "c02": 1850.4,
                     "negativeCustomerScore": 0,
                     "positiveCustomerScore": 1860
                 },
                 {
-                    "companyBudget": 43.382,
-                    "c02": 1977.6,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 2360
-                },
-                {
-                    "companyBudget": 39.002,
-                    "c02": 2088,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 2800
-                },
-                {
-                    "companyBudget": 43.252,
-                    "c02": 2200.8,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 3300
-                },
-                {
-                    "companyBudget": 0.93,
-                    "c02": 2625.6,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 4120
-                },
-                {
-                    "companyBudget": 72.75,
-                    "c02": 2726.4,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 4960
-                },
-                {
-                    "companyBudget": 69.4,
-                    "c02": 2920.8,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 5760
-                },
-                {
-                    "companyBudget": 0.828,
-                    "c02": 3381.6,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 6580
-                },
-                {
-                    "companyBudget": 74.358,
-                    "c02": 3484.8,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 7440
-                },
-                {
-                    "companyBudget": 74.388,
-                    "c02": 3688.8,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 8300
-                },
-                {
-                    "companyBudget": 0.018,
-                    "c02": 4176,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 9160
-                },
-                {
-                    "companyBudget": 54.738,
-                    "c02": 4252.8,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 9800
-                },
-                {
-                    "companyBudget": 58.628,
-                    "c02": 4408.8,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 10480
-                },
-                {
-                    "companyBudget": 0.934,
-                    "c02": 4809.6,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 11200
-                },
-                {
-                    "companyBudget": 55.654,
-                    "c02": 4886.4,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 11840
-                },
-                {
-                    "companyBudget": 57.834,
-                    "c02": 5040,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 12500
-                },
-                {
-                    "companyBudget": 0.962,
-                    "c02": 5412,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 13160
-                },
-                {
-                    "companyBudget": 60.812,
-                    "c02": 5496,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 13860
-                },
-                {
-                    "companyBudget": 44.062,
-                    "c02": 5637.6,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 14360
-                },
-                {
-                    "companyBudget": 173.852,
-                    "c02": 6079.2,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 14800
-                },
-                {
-                    "companyBudget": 41.642,
-                    "c02": 6374.4,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 15280
-                },
-                {
-                    "companyBudget": 35.592,
-                    "c02": 6477.6,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 15680
-                },
-                {
-                    "companyBudget": 0.802,
-                    "c02": 6684,
-                    "negativeCustomerScore": -730,
-                    "positiveCustomerScore": 16050
-                },
-                {
-                    "companyBudget": 36.712,
-                    "c02": 6734.4,
-                    "negativeCustomerScore": -730,
-                    "positiveCustomerScore": 16470
-                },
-                {
-                    "companyBudget": 34.202,
-                    "c02": 6828,
-                    "negativeCustomerScore": -730,
-                    "positiveCustomerScore": 16850
-                },
-                {
-                    "companyBudget": 69.352,
-                    "c02": 6969.6,
-                    "negativeCustomerScore": -730,
-                    "positiveCustomerScore": 17650
-                },
-                {
-                    "companyBudget": 0.204,
-                    "c02": 7288.8,
-                    "negativeCustomerScore": -730,
-                    "positiveCustomerScore": 18150
-                },
-                {
-                    "companyBudget": 37.824,
-                    "c02": 7341.6,
-                    "negativeCustomerScore": -730,
-                    "positiveCustomerScore": 18590
-                }
-            ],
-            "visualizer": "https://visualizer.considition.com/visualizer/f7b676d3-a30c-4f2c-e9f2-08dac10a4205"
-        },
-        "step": 3
-    },
-    {
-        "solution": {
-            "recycleRefundChoice": false,
-            "bagPrice": 0.355,
-            "refundAmount": 0.375,
-            "bagType": 2,
-            "orders": [
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150,
-                150
-            ],
-            "mapName": "FancyVille"
-        },
-        "score": {
-            "gameId": "ea68bd48-b956-4c54-f6a6-08dac10a4205",
-            "score": 10337,
-            "totalProducedBags": 1186,
-            "totalDestroyedBags": 480,
-            "dailys": [
-                {
-                    "companyBudget": 753.12,
-                    "c02": 412.8,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 440
-                },
-                {
-                    "companyBudget": 507.66,
-                    "c02": 830.4,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 920
-                },
-                {
-                    "companyBudget": 260.78,
-                    "c02": 1243.2,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 1360
-                },
-                {
-                    "companyBudget": 0.08,
-                    "c02": 1862.4,
-                    "negativeCustomerScore": 0,
-                    "positiveCustomerScore": 1860
-                },
-                {
-                    "companyBudget": 17.83,
+                    "companyBudget": 8.8,
                     "c02": 1922.4,
                     "negativeCustomerScore": 0,
                     "positiveCustomerScore": 2360
                 },
                 {
-                    "companyBudget": 15.95,
-                    "c02": 1999.2,
+                    "companyBudget": 7.75,
+                    "c02": 1987.2,
                     "negativeCustomerScore": 0,
                     "positiveCustomerScore": 2800
                 },
                 {
-                    "companyBudget": 17.95,
-                    "c02": 2080.8,
+                    "companyBudget": 9.5,
+                    "c02": 2056.8,
                     "negativeCustomerScore": 0,
                     "positiveCustomerScore": 3300
                 },
                 {
-                    "companyBudget": 0.16,
-                    "c02": 2536.8,
+                    "companyBudget": 15.1,
+                    "c02": 2438.4,
                     "negativeCustomerScore": 0,
                     "positiveCustomerScore": 4120
                 },
                 {
-                    "companyBudget": 29.98,
-                    "c02": 2637.6,
+                    "companyBudget": 15.8,
+                    "c02": 2558.4,
                     "negativeCustomerScore": 0,
                     "positiveCustomerScore": 4960
                 },
                 {
-                    "companyBudget": 28.63,
-                    "c02": 2774.4,
+                    "companyBudget": 14.05,
+                    "c02": 2676,
                     "negativeCustomerScore": 0,
                     "positiveCustomerScore": 5760
                 },
                 {
-                    "companyBudget": 0.04,
-                    "c02": 3247.2,
+                    "companyBudget": 14.4,
+                    "c02": 3088.8,
                     "negativeCustomerScore": 0,
                     "positiveCustomerScore": 6580
                 },
                 {
-                    "companyBudget": 30.57,
-                    "c02": 3350.4,
+                    "companyBudget": 15.45,
+                    "c02": 3211.2,
                     "negativeCustomerScore": 0,
                     "positiveCustomerScore": 7440
                 },
                 {
-                    "companyBudget": 31.35,
-                    "c02": 3494.4,
+                    "companyBudget": 16.5,
+                    "c02": 3333.6,
                     "negativeCustomerScore": 0,
                     "positiveCustomerScore": 8300
                 },
                 {
-                    "companyBudget": 0.03,
-                    "c02": 3998.4,
+                    "companyBudget": 15.8,
+                    "c02": 3768,
                     "negativeCustomerScore": 0,
                     "positiveCustomerScore": 9160
                 },
                 {
-                    "companyBudget": 22.75,
-                    "c02": 4075.2,
+                    "companyBudget": 11.25,
+                    "c02": 3866.4,
                     "negativeCustomerScore": 0,
                     "positiveCustomerScore": 9800
                 },
                 {
-                    "companyBudget": 18.815,
-                    "c02": 4170,
-                    "negativeCustomerScore": -150,
-                    "positiveCustomerScore": 10330
+                    "companyBudget": 12.65,
+                    "c02": 3962.4,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 10480
                 },
                 {
-                    "companyBudget": 645.675,
-                    "c02": 4616.4,
-                    "negativeCustomerScore": -150,
-                    "positiveCustomerScore": 11050
+                    "companyBudget": 2713,
+                    "c02": 4245.6,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 11200
                 },
                 {
-                    "companyBudget": 405.895,
-                    "c02": 5053.2,
-                    "negativeCustomerScore": -150,
-                    "positiveCustomerScore": 11690
+                    "companyBudget": 1724.95,
+                    "c02": 5692.8,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 11840
                 },
                 {
-                    "companyBudget": 166.825,
-                    "c02": 5492.4,
-                    "negativeCustomerScore": -150,
-                    "positiveCustomerScore": 12350
+                    "companyBudget": 737.25,
+                    "c02": 7142.4,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 12500
                 },
                 {
-                    "companyBudget": 0.005,
-                    "c02": 6070.8,
-                    "negativeCustomerScore": -150,
-                    "positiveCustomerScore": 13010
+                    "companyBudget": 4412.05,
+                    "c02": 8361.6,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 13160
                 },
                 {
-                    "companyBudget": 24.855,
-                    "c02": 6154.8,
-                    "negativeCustomerScore": -150,
-                    "positiveCustomerScore": 13710
+                    "companyBudget": 3425.05,
+                    "c02": 9816,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 13860
                 },
                 {
-                    "companyBudget": 18.105,
-                    "c02": 6248.4,
-                    "negativeCustomerScore": -150,
-                    "positiveCustomerScore": 14210
+                    "companyBudget": 2434.55,
+                    "c02": 11246.4,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 14360
                 },
                 {
-                    "companyBudget": 0.025,
-                    "c02": 6507.6,
-                    "negativeCustomerScore": -150,
-                    "positiveCustomerScore": 14650
+                    "companyBudget": 1443,
+                    "c02": 12866.4,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 14800
                 },
                 {
-                    "companyBudget": 17.065,
-                    "c02": 6565.2,
-                    "negativeCustomerScore": -150,
-                    "positiveCustomerScore": 15130
+                    "companyBudget": 452.15,
+                    "c02": 14294.4,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 15280
                 },
                 {
-                    "companyBudget": 15.515,
-                    "c02": 6634.8,
-                    "negativeCustomerScore": -150,
-                    "positiveCustomerScore": 15530
+                    "companyBudget": 7.65,
+                    "c02": 14961.6,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 15680
                 },
                 {
-                    "companyBudget": 0.325,
-                    "c02": 6812.4,
-                    "negativeCustomerScore": -790,
-                    "positiveCustomerScore": 15990
+                    "companyBudget": 0.3,
+                    "c02": 15129.6,
+                    "negativeCustomerScore": -850,
+                    "positiveCustomerScore": 15930
                 },
                 {
-                    "companyBudget": 15.235,
-                    "c02": 6862.8,
-                    "negativeCustomerScore": -790,
-                    "positiveCustomerScore": 16410
+                    "companyBudget": 7.65,
+                    "c02": 15180,
+                    "negativeCustomerScore": -850,
+                    "positiveCustomerScore": 16350
                 },
                 {
-                    "companyBudget": 14.725,
-                    "c02": 6927.6,
-                    "negativeCustomerScore": -790,
-                    "positiveCustomerScore": 16790
+                    "companyBudget": 7.3,
+                    "c02": 15235.2,
+                    "negativeCustomerScore": -850,
+                    "positiveCustomerScore": 16730
                 },
                 {
-                    "companyBudget": 29.125,
-                    "c02": 7042.8,
-                    "negativeCustomerScore": -790,
-                    "positiveCustomerScore": 17590
+                    "companyBudget": 14.3,
+                    "c02": 15340.8,
+                    "negativeCustomerScore": -850,
+                    "positiveCustomerScore": 17530
                 },
                 {
-                    "companyBudget": 0.275,
-                    "c02": 7350,
-                    "negativeCustomerScore": -790,
-                    "positiveCustomerScore": 18090
+                    "companyBudget": 9.05,
+                    "c02": 15672,
+                    "negativeCustomerScore": -850,
+                    "positiveCustomerScore": 18030
                 },
                 {
-                    "companyBudget": 15.895,
-                    "c02": 7402.8,
-                    "negativeCustomerScore": -790,
-                    "positiveCustomerScore": 18530
+                    "companyBudget": 8,
+                    "c02": 15736.8,
+                    "negativeCustomerScore": -850,
+                    "positiveCustomerScore": 18470
                 }
             ],
-            "visualizer": "https://visualizer.considition.com/visualizer/ea68bd48-b956-4c54-f6a6-08dac10a4205"
+            "visualizer": "https://visualizer.considition.com/visualizer/71d9d903-38bd-4d2c-cc03-08dac10a4207"
         },
-        "step": 3
+        "step": 1
+    },
+    {
+        "solution": {
+            "recycleRefundChoice": false,
+            "bagPrice": 0.175,
+            "refundAmount": 0.175,
+            "bagType": 2,
+            "orders": [
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571
+            ],
+            "mapName": "FancyVille"
+        },
+        "score": {
+            "gameId": "97102cb3-1621-44a7-c861-08dac10a4207",
+            "score": -646,
+            "totalProducedBags": 643,
+            "totalDestroyedBags": 229,
+            "dailys": [
+                {
+                    "companyBudget": 8.45,
+                    "c02": 1423.2,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 440
+                },
+                {
+                    "companyBudget": 9.85,
+                    "c02": 1490.4,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 920
+                },
+                {
+                    "companyBudget": 8.8,
+                    "c02": 1555.2,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 1360
+                },
+                {
+                    "companyBudget": 0.12,
+                    "c02": 1836,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 1860
+                },
+                {
+                    "companyBudget": 8.87,
+                    "c02": 1896,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 2360
+                },
+                {
+                    "companyBudget": 7.82,
+                    "c02": 1960.8,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 2800
+                },
+                {
+                    "companyBudget": 9.57,
+                    "c02": 2030.4,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 3300
+                },
+                {
+                    "companyBudget": 0.05,
+                    "c02": 2498.4,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 4120
+                },
+                {
+                    "companyBudget": 14.75,
+                    "c02": 2599.2,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 4960
+                },
+                {
+                    "companyBudget": 14.75,
+                    "c02": 2714.4,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 5760
+                },
+                {
+                    "companyBudget": 0.12,
+                    "c02": 3187.2,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 6580
+                },
+                {
+                    "companyBudget": 15.17,
+                    "c02": 3290.4,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 7440
+                },
+                {
+                    "companyBudget": 16.22,
+                    "c02": 3412.8,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 8300
+                },
+                {
+                    "companyBudget": 0.12,
+                    "c02": 3904.8,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 9160
+                },
+                {
+                    "companyBudget": 8.695,
+                    "c02": 3963.6,
+                    "negativeCustomerScore": -150,
+                    "positiveCustomerScore": 9650
+                },
+                {
+                    "companyBudget": 2.395,
+                    "c02": 3978,
+                    "negativeCustomerScore": -790,
+                    "positiveCustomerScore": 9690
+                },
+                {
+                    "companyBudget": 3.97,
+                    "c02": 4216.8,
+                    "negativeCustomerScore": -790,
+                    "positiveCustomerScore": 10940
+                },
+                {
+                    "companyBudget": 2.045,
+                    "c02": 4232.4,
+                    "negativeCustomerScore": -1340,
+                    "positiveCustomerScore": 11030
+                },
+                {
+                    "companyBudget": 0.47,
+                    "c02": 4236,
+                    "negativeCustomerScore": -1990,
+                    "positiveCustomerScore": 11040
+                },
+                {
+                    "companyBudget": 6.07,
+                    "c02": 4274.4,
+                    "negativeCustomerScore": -2330,
+                    "positiveCustomerScore": 11360
+                },
+                {
+                    "companyBudget": 1.345,
+                    "c02": 4285.2,
+                    "negativeCustomerScore": -3000,
+                    "positiveCustomerScore": 11390
+                },
+                {
+                    "companyBudget": 1.345,
+                    "c02": 4285.2,
+                    "negativeCustomerScore": -3500,
+                    "positiveCustomerScore": 11390
+                },
+                {
+                    "companyBudget": 1.345,
+                    "c02": 4285.2,
+                    "negativeCustomerScore": -3940,
+                    "positiveCustomerScore": 11390
+                },
+                {
+                    "companyBudget": 0.12,
+                    "c02": 4339.2,
+                    "negativeCustomerScore": -4800,
+                    "positiveCustomerScore": 11460
+                },
+                {
+                    "companyBudget": 0.12,
+                    "c02": 4339.2,
+                    "negativeCustomerScore": -5200,
+                    "positiveCustomerScore": 11460
+                },
+                {
+                    "companyBudget": 0.12,
+                    "c02": 4339.2,
+                    "negativeCustomerScore": -5420,
+                    "positiveCustomerScore": 11460
+                },
+                {
+                    "companyBudget": 1.345,
+                    "c02": 4347.6,
+                    "negativeCustomerScore": -5770,
+                    "positiveCustomerScore": 11530
+                },
+                {
+                    "companyBudget": 1.345,
+                    "c02": 4347.6,
+                    "negativeCustomerScore": -6150,
+                    "positiveCustomerScore": 11530
+                },
+                {
+                    "companyBudget": 1.345,
+                    "c02": 4347.6,
+                    "negativeCustomerScore": -6950,
+                    "positiveCustomerScore": 11530
+                },
+                {
+                    "companyBudget": 1.345,
+                    "c02": 4347.6,
+                    "negativeCustomerScore": -7450,
+                    "positiveCustomerScore": 11530
+                },
+                {
+                    "companyBudget": 0.12,
+                    "c02": 4356,
+                    "negativeCustomerScore": -7890,
+                    "positiveCustomerScore": 11600
+                }
+            ],
+            "visualizer": "https://visualizer.considition.com/visualizer/97102cb3-1621-44a7-c861-08dac10a4207"
+        },
+        "step": 1
+    },
+    {
+        "solution": {
+            "recycleRefundChoice": true,
+            "bagPrice": 0.175,
+            "refundAmount": 1.4,
+            "bagType": 2,
+            "orders": [
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571,
+                571
+            ],
+            "mapName": "FancyVille"
+        },
+        "score": {
+            "gameId": "36580707-ac16-4d57-c604-08dac10a4207",
+            "score": -1425,
+            "totalProducedBags": 669,
+            "totalDestroyedBags": 336,
+            "dailys": [
+                {
+                    "companyBudget": 8.45,
+                    "c02": 1423.2,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 440
+                },
+                {
+                    "companyBudget": 9.85,
+                    "c02": 1490.4,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 920
+                },
+                {
+                    "companyBudget": 8.8,
+                    "c02": 1555.2,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 1360
+                },
+                {
+                    "companyBudget": 8.8,
+                    "c02": 1850.4,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 1860
+                },
+                {
+                    "companyBudget": 8.8,
+                    "c02": 1922.4,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 2360
+                },
+                {
+                    "companyBudget": 7.75,
+                    "c02": 1987.2,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 2800
+                },
+                {
+                    "companyBudget": 9.5,
+                    "c02": 2056.8,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 3300
+                },
+                {
+                    "companyBudget": 15.1,
+                    "c02": 2438.4,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 4120
+                },
+                {
+                    "companyBudget": 15.8,
+                    "c02": 2558.4,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 4960
+                },
+                {
+                    "companyBudget": 14.05,
+                    "c02": 2676,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 5760
+                },
+                {
+                    "companyBudget": 14.4,
+                    "c02": 2892,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 6580
+                },
+                {
+                    "companyBudget": 15.45,
+                    "c02": 3014.4,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 7440
+                },
+                {
+                    "companyBudget": 16.5,
+                    "c02": 3136.8,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 8300
+                },
+                {
+                    "companyBudget": 15.8,
+                    "c02": 3364.8,
+                    "negativeCustomerScore": 0,
+                    "positiveCustomerScore": 9160
+                },
+                {
+                    "companyBudget": 4.775,
+                    "c02": 3418.8,
+                    "negativeCustomerScore": -370,
+                    "positiveCustomerScore": 9430
+                },
+                {
+                    "companyBudget": 1.625,
+                    "c02": 3426,
+                    "negativeCustomerScore": -1030,
+                    "positiveCustomerScore": 9450
+                },
+                {
+                    "companyBudget": 0.225,
+                    "c02": 3633.6,
+                    "negativeCustomerScore": -1220,
+                    "positiveCustomerScore": 10270
+                },
+                {
+                    "companyBudget": 2.675,
+                    "c02": 3650.4,
+                    "negativeCustomerScore": -1720,
+                    "positiveCustomerScore": 10410
+                },
+                {
+                    "companyBudget": 1.1,
+                    "c02": 3654,
+                    "negativeCustomerScore": -2370,
+                    "positiveCustomerScore": 10420
+                },
+                {
+                    "companyBudget": 6.175,
+                    "c02": 3688.8,
+                    "negativeCustomerScore": -2740,
+                    "positiveCustomerScore": 10710
+                },
+                {
+                    "companyBudget": 1.45,
+                    "c02": 3699.6,
+                    "negativeCustomerScore": -3410,
+                    "positiveCustomerScore": 10740
+                },
+                {
+                    "companyBudget": 1.45,
+                    "c02": 3699.6,
+                    "negativeCustomerScore": -3910,
+                    "positiveCustomerScore": 10740
+                },
+                {
+                    "companyBudget": 1.45,
+                    "c02": 3699.6,
+                    "negativeCustomerScore": -4350,
+                    "positiveCustomerScore": 10740
+                },
+                {
+                    "companyBudget": 0.05,
+                    "c02": 3756,
+                    "negativeCustomerScore": -5290,
+                    "positiveCustomerScore": 10750
+                },
+                {
+                    "companyBudget": 0.05,
+                    "c02": 3756,
+                    "negativeCustomerScore": -5690,
+                    "positiveCustomerScore": 10750
+                },
+                {
+                    "companyBudget": 0.05,
+                    "c02": 3756,
+                    "negativeCustomerScore": -5910,
+                    "positiveCustomerScore": 10750
+                },
+                {
+                    "companyBudget": 0.75,
+                    "c02": 3760.8,
+                    "negativeCustomerScore": -6290,
+                    "positiveCustomerScore": 10790
+                },
+                {
+                    "companyBudget": 0.75,
+                    "c02": 3760.8,
+                    "negativeCustomerScore": -6670,
+                    "positiveCustomerScore": 10790
+                },
+                {
+                    "companyBudget": 0.75,
+                    "c02": 3760.8,
+                    "negativeCustomerScore": -7470,
+                    "positiveCustomerScore": 10790
+                },
+                {
+                    "companyBudget": 0.75,
+                    "c02": 3760.8,
+                    "negativeCustomerScore": -7970,
+                    "positiveCustomerScore": 10790
+                },
+                {
+                    "companyBudget": 0.75,
+                    "c02": 3765.6,
+                    "negativeCustomerScore": -8450,
+                    "positiveCustomerScore": 10790
+                }
+            ],
+            "visualizer": "https://visualizer.considition.com/visualizer/36580707-ac16-4d57-c604-08dac10a4207"
+        },
+        "step": 1
     }
 ]

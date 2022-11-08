@@ -29,97 +29,129 @@ async function main(bagNum) {
 
 	console.log(subs.length);
 
+	let stepOneSuccess = false;
+	let stepTwoSuccess = false;
+	let stepThreeSuccess = false;
+	let stepFourSuccess = false;
 	if (subs.length < 1) {
-		console.log("CREATING SUBS");
-		const prices = [0.1, 4, 6, 10];
-		const refunds = [0.1, 0.4, 0.8];
-		const recycles = [true, false];
-		console.log(subs);
-		for (const recycleRefundChoice of recycles) {
-			for (const refundAmount of refunds) {
-				for (const bagPrice of prices) {
-					subs.push({ bagPrice, refundAmount, bagType, recycleRefundChoice });
-				}
+		while( !stepOneSuccess ){
+			try {
+				
+					console.log("CREATING SUBS");
+					const prices = [0.1, 4, 6, 10];
+					const refunds = [0.1, 0.4, 0.8];
+					const recycles = [true, false];
+					console.log(subs);
+					for (const recycleRefundChoice of recycles) {
+						for (const refundAmount of refunds) {
+							for (const bagPrice of prices) {
+								subs.push({ bagPrice, refundAmount, bagType, recycleRefundChoice });
+							}
+						}
+					}
+					let solutions = [];
+					for (const sub of subs) {
+						let solution = solver.solve(response, sub, days);
+						solution.bagPrice = round(solution.bagPrice, 3);
+						solution.refundAmount = round(solution.refundAmount, 3);
+						solutions.push({ ...solution });
+					}
+			
+					let scores = [];
+					console.log("STARTING STEP 1 - GENERAL SOLUTIONS");
+					console.log(solutions.length);
+					for (const solution of solutions) {
+						let score = await api.submitGame(apiKey, currentMap, solution);
+						submitCounter++;
+						console.log(score.score);
+			
+						scores.push({ solution: { ...solution }, score, step: 1 });
+			
+					}
+					scores.filter((e) => e.score.score > 0);
+					scores.sort((a, b) => b.score.score - a.score.score);
+			
+					unique = scores.slice(0, 3);
+					console.log("STEP 1 COMPLETE - SAVING DATA");
+					utils.storeData(unique, `results_bag${bagType}.json`, false);
+					stepOneSuccess = true;
+			} catch (error) {
+				console.log("STEP 1 FAILED - TRYING AGAIN");
 			}
 		}
-		let solutions = [];
-		for (const sub of subs) {
-			let solution = solver.solve(response, sub, days);
-			solution.bagPrice = round(solution.bagPrice, 3);
-			solution.refundAmount = round(solution.refundAmount, 3);
-			solutions.push({ ...solution });
-		}
-
-		let scores = [];
-		console.log("STARTING STEP 1 - GENERAL SOLUTIONS");
-		console.log(solutions.length);
-		for (const solution of solutions) {
-			let score = await api.submitGame(apiKey, currentMap, solution);
-			submitCounter++;
-			console.log(score.score);
-
-			scores.push({ solution: { ...solution }, score, step: 1 });
-
-		}
-		scores.filter((e) => e.score.score > 0);
-		scores.sort((a, b) => b.score.score - a.score.score);
-
-		unique = scores.slice(0, 3);
-		console.log("STEP 1 COMPLETE - SAVING DATA");
-		utils.storeData(unique, `results_bag${bagType}.json`, false);
 	}
 
 	if( unique[0].step < 2 ){
-		console.log("STARTING STEP 2 - FIND PRICES");
-
-		for (let i = 0; i < unique.length; i++) {
-			const high = unique[i];
-			let highscore = await findScore(high, 0.5, response);
-			highscore = await findScore(highscore, 0.2, response);
-			highscore = await findScore(highscore, 0.1, response);
-			highscore = await findScore(highscore, 0.01, response);
-
-			unique[i] = { ...highscore };
-			unique[i].step = 2;
-			//utils.storeData(highscore, `results_bag${bagType}.json`, false);
+		while( !stepTwoSuccess ){
+			try {
+					console.log("STARTING STEP 2 - FIND PRICES");
+			
+					for (let i = 0; i < unique.length; i++) {
+						const high = unique[i];
+						let highscore = await findScore(high, 0.5, response);
+						highscore = await findScore(highscore, 0.2, response);
+						highscore = await findScore(highscore, 0.1, response);
+						highscore = await findScore(highscore, 0.01, response);
+			
+						unique[i] = { ...highscore };
+						unique[i].step = 2;
+						//utils.storeData(highscore, `results_bag${bagType}.json`, false);
+					}
+			
+					unique = unique
+						.map((e) => e.solution["bagPrice"] + "_" + e.solution["refundAmount"])
+						.map((e, i, final) => final.indexOf(e) === i && i)
+						.filter((obj) => unique[obj])
+						.map((e) => unique[e]);
+			
+					unique.sort((a, b) => b.score.score - a.score.score);
+					utils.storeData(unique, `results_bag${bagType}.json`, true);
+					console.log("STEP 2 COMPLETE - SAVING DATA");
+					stepTwoSuccess = true;
+			} catch (error) {
+				console.log("STEP 2 FAILED - TRYING AGAIN")
+			}
 		}
-
-		unique = unique
-			.map((e) => e.solution["bagPrice"] + "_" + e.solution["refundAmount"])
-			.map((e, i, final) => final.indexOf(e) === i && i)
-			.filter((obj) => unique[obj])
-			.map((e) => unique[e]);
-
-		unique.sort((a, b) => b.score.score - a.score.score);
-		utils.storeData(unique, `results_bag${bagType}.json`, true);
-		console.log("STEP 2 COMPLETE - SAVING DATA");
+	}
+	if( unique[0].step < 3 ){
+		while( !stepThreeSuccess ){
+			try {
+				console.log("STARTING STEP 3 - MINIMUM ORDERS");
+					for (let i = 0; i < unique.length; i++) {
+						const high = unique[i];
+			
+						let highscore = await findOrders(high, 200);
+						highscore = await findOrders(highscore, 100);
+						highscore = await findOrders(highscore, 50);
+						highscore = await findOrders(highscore, 25);
+						highscore = await findOrders(highscore, 10);
+						highscore = await findOrders(highscore, 1);
+			
+						unique[i] = { ...highscore };
+						unique[i].step = 3;
+					}
+					utils.storeData(unique, `results_bag${bagType}.json`, true);
+					console.log("STEP 3 COMPLETE - SAVING DATA");
+					stepThreeSuccess = true;
+			} catch (error) {
+				console.log("STEP 3 FAILED - TRYING AGAIN");
+			}
+		}
 	}
 
 	/**
 	 * FINDS MINIMUM NEEDED BAGS
 	 */
-
-	if( unique[0].step < 3 ){
-
-		console.log("STARTING STEP 3 - MINIMUM ORDERS");
-		for (let i = 0; i < unique.length; i++) {
-			const high = unique[i];
-
-			let highscore = await findOrders(high, 200);
-			highscore = await findOrders(highscore, 100);
-			highscore = await findOrders(highscore, 50);
-			highscore = await findOrders(highscore, 25);
-			highscore = await findOrders(highscore, 10);
-			highscore = await findOrders(highscore, 1);
-
-			unique[i] = { ...highscore };
-			unique[i].step = 3;
+	while( !stepFourSuccess ){
+		try {
+			let minimumInterval = await findInterval(unique[0]);
+			stepFourSuccess = true;
+		} catch (error) {
+			console.log("STEP 4 FAILED - TRYING AGAIN");
 		}
-		utils.storeData(unique, `results_bag${bagType}.json`, true);
-		console.log("STEP 3 COMPLETE - SAVING DATA");
 	}
 
-	let minimumInterval = await findInterval(unique[0]);
+	console.log("ALGORITHM DONEEEEE!")	
 }
 
 async function findInterval(solution) {
@@ -150,7 +182,7 @@ async function findInterval(solution) {
 		submitCounter++;
 		console.log("GAME SUBMITTED");
 
-		for (let i = lastCompromise; i < newScore.dailys.length; i++) {
+		for (let i = 0; i < newScore.dailys.length; i++) {
 			newDay = newScore.dailys[i];
 			oldDay = solution.score.dailys[i];
 
@@ -193,12 +225,12 @@ async function findInterval(solution) {
 			 let newCo2;
 
 			 if( newDay.negativeCustomerScore < 0 ){
-				solution.solution.orders[i] += Math.abs(newDay.negativeCustomerScore)/10;
+				solution.solution.orders[day] += Math.abs(newDay.negativeCustomerScore)/10;
 				console.log("ADDING BAGS");
 				break;
 			}
 
-
+/*
 			for( let k = 1; k < 4; k++ ){
 				if( newDay.negativeCustomerScore == 0 ){
 					newCo2Solution = {...oldCo2Solution};
@@ -207,11 +239,14 @@ async function findInterval(solution) {
 					newCo2 = await api.submitGame(apiKey, currentMap, newCo2Solution);
 
 					if( newCo2.dailys[i].c02 - oldCo2.dailys[i].c02 < newScore.negativeCustomerScore ){
+						console.log("CO2 is lower, rerun loop!")
 						oldCo2 = {...newCo2};
 						oldCo2Solution = {...newCo2Solution};
+					} else {
+						break;
 					}
 				}
-			}
+			}*/
 			lastCompromise = i;
 
 
