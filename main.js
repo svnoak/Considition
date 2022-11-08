@@ -16,6 +16,8 @@ let submitCounter = 0;
 let path;
 let pathOrders;
 
+let savedSolutions = [];
+
 async function main(bagNum) {
     path = `./results/results_bag${bagNum}_${currentMap}.json`;
 
@@ -24,8 +26,9 @@ async function main(bagNum) {
     utils.storeData([], path);
   }
 });
-
+	console.log("FETCHING MAP");
 	let response = await api.getMap(apiKey, currentMap);
+	console.log("MAP FETCHED");
 	bagType = bagNum;
 
 	console.log("Running: Bag " + bagNum);
@@ -45,38 +48,41 @@ async function main(bagNum) {
 	let stepThreeSuccess = false;
 	let stepFourSuccess = false;
 
-	console.log("CREATING SUBS");
-	const prices = [0.1, 4, 6, 10];
-	const refunds = [0.1, 0.4, 0.8];
-	const recycles = [true, false];
-	for (const recycleRefundChoice of recycles) {
-		for (const refundAmount of refunds) {
-			for (const bagPrice of prices) {
-				subs.push({ bagPrice, refundAmount, bagType, recycleRefundChoice });
+	if (subs.length < 1) {
+		console.log("CREATING SUBS");
+		const prices = [0.1, 4, 6, 10];
+		const refunds = [0.1, 0.4, 0.8];
+		const recycles = [true, false];
+		for (const recycleRefundChoice of recycles) {
+			for (const refundAmount of refunds) {
+				for (const bagPrice of prices) {
+					subs.push({ bagPrice, refundAmount, bagType, recycleRefundChoice });
+				}
 			}
 		}
-	}
-	let solutions = [];
-	for (const sub of subs) {
-		let solution = solver.solve(response, sub, days);
-		solution.bagPrice = round(solution.bagPrice, 3);
-		solution.refundAmount = round(solution.refundAmount, 3);
-		solutions.push({ ...solution });
-	}
+		let solutions = [];
+		for (const sub of subs) {
+			let solution = solver.solve(response, sub, days);
+			solution.bagPrice = round(solution.bagPrice, 3);
+			solution.refundAmount = round(solution.refundAmount, 3);
+			solutions.push({ ...solution });
+		}
 
-	if (subs.length < 1) {
+		let scores = [];
+
 		while( !stepOneSuccess ){
-			try {			
-					let scores = [];
+			try {
 					console.log("STARTING STEP 1 - GENERAL SOLUTIONS");
 					console.log(solutions.length);
-					for (const solution of solutions) {
-						let score = await api.submitGame(apiKey, currentMap, solution);
+					console.log(scores.length);
+					for( let i = scores.length; i<solutions.length; i++ ) {
+						console.log(i);
+						let score = await api.submitGame(apiKey, currentMap, solutions[i]);
 						submitCounter++;
-						console.log(score.score);
+						console.log(score.score.score);
 			
-						scores.push({ solution: { ...solution }, score, step: 1 });
-			
+						scores.push({ solution: { ...solutions[i] }, score, step: 1 });
+						console.log(scores);
 					}
 					scores.filter((e) => e.score.score > 0);
 					scores.sort((a, b) => b.score.score - a.score.score);
