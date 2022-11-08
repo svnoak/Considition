@@ -2,6 +2,7 @@
 const solver = require("./solver");
 const utils = require("./utils");
 const orders = require("./optisolve");
+const fs = require("fs");
 
 let bagType_price = [1.7, 1.75, 6, 25, 200];
 let bagType_co2_production = [30, 24, 36, 42, 60];
@@ -12,16 +13,27 @@ const currentMap = JSON.parse(utils.loadData("config.json")).map;
 let days = JSON.parse(utils.loadData("config.json")).days;
 let bagType;
 let submitCounter = 0;
+let path;
+let pathOrders;
 
 async function main(bagNum) {
+    path = `./results/results_bag${bagNum}_${currentMap}.json`;
+    pathOrders = `./orders/orders_bag${bagNum}_${currentMap}.json`;
+
+    fs.exists(path, function (isExist) {
+  if (!isExist) {
+    utils.storeData([], path);
+  }
+});
+
 	let response = await api.getMap(apiKey, currentMap);
 	bagType = bagNum;
 
 	console.log("Running: Bag " + bagNum);
 
-	let subs = JSON.parse(utils.loadData(`results_bag${bagNum}.json`));
+	let subs = JSON.parse(utils.loadData(path));
 
-	let unique = JSON.parse(utils.loadData(`results_bag${bagNum}.json`));
+	let unique = JSON.parse(utils.loadData(path));
 
 	/**
 	 * If there is no data since before, we need to run the algorithm from scratch to generate the data.
@@ -73,7 +85,7 @@ async function main(bagNum) {
 			
 					unique = scores.slice(0, 3);
 					console.log("STEP 1 COMPLETE - SAVING DATA");
-					utils.storeData(unique, `results_bag${bagType}.json`, false);
+					utils.storeData(unique, path, false);
 					stepOneSuccess = true;
 			} catch (error) {
 				console.log("STEP 1 FAILED - TRYING AGAIN");
@@ -95,7 +107,7 @@ async function main(bagNum) {
 			
 						unique[i] = { ...highscore };
 						unique[i].step = 2;
-						//utils.storeData(highscore, `results_bag${bagType}.json`, false);
+						//utils.storeData(highscore, path, false);
 					}
 			
 					unique = unique
@@ -105,7 +117,7 @@ async function main(bagNum) {
 						.map((e) => unique[e]);
 			
 					unique.sort((a, b) => b.score.score - a.score.score);
-					utils.storeData(unique, `results_bag${bagType}.json`, true);
+					utils.storeData(unique, path, true);
 					console.log("STEP 2 COMPLETE - SAVING DATA");
 					stepTwoSuccess = true;
 			} catch (error) {
@@ -130,7 +142,7 @@ async function main(bagNum) {
 						unique[i] = { ...highscore };
 						unique[i].step = 3;
 					}
-					utils.storeData(unique, `results_bag${bagType}.json`, true);
+					utils.storeData(unique, path, true);
 					console.log("STEP 3 COMPLETE - SAVING DATA");
 					stepThreeSuccess = true;
 			} catch (error) {
@@ -293,7 +305,7 @@ async function findInterval(solution) {
 
 			
 
-			utils.storeData(solution.solution.orders, `order_bag${bagType}.json`);
+			utils.storeData(solution.solution.orders, pathOrders);
 
 			if (i == newScore.dailys.length - 1) {
 				condition = false;
