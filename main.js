@@ -125,6 +125,8 @@ async function main(bagNum) {
 			}
 		}
 	}
+    
+    /* 
 	if( unique[0].step < 3 ){
 		while( !stepThreeSuccess ){
 			try {
@@ -149,14 +151,16 @@ async function main(bagNum) {
 				console.log("STEP 3 FAILED - TRYING AGAIN");
 			}
 		}
-	}
+	} */
 
 	/**
 	 * FINDS MINIMUM NEEDED BAGS
 	 */
 	while( !stepFourSuccess ){
 		try {
-			let minimumInterval = await findInterval(unique[0]);
+            for( sol of unique ){
+                let minimumInterval = await findInterval(sol);
+            }
 			stepFourSuccess = true;
 		} catch (error) {
 			console.log("STEP 4 FAILED - TRYING AGAIN");
