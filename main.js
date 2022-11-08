@@ -21,7 +21,7 @@ async function main(bagNum) {
 
 	let subs = JSON.parse(utils.loadData(`results_bag${bagNum}.json`));
 
-	let unique = [];
+	let unique = JSON.parse(utils.loadData(`results_bag${bagNum}.json`));
 
 	/**
 	 * If there is no data since before, we need to run the algorithm from scratch to generate the data.
@@ -51,73 +51,79 @@ async function main(bagNum) {
 		}
 
 		let scores = [];
-		console.log("MAIN SOLUTIONS");
+		console.log("STARTING STEP 1 - GENERAL SOLUTIONS");
 		console.log(solutions.length);
 		for (const solution of solutions) {
 			let score = await api.submitGame(apiKey, currentMap, solution);
 			submitCounter++;
 			console.log(score.score);
 
-			scores.push({ solution: { ...solution }, score });
+			scores.push({ solution: { ...solution }, score, step: 1 });
+
 		}
 		scores.filter((e) => e.score.score > 0);
 		scores.sort((a, b) => b.score.score - a.score.score);
 
-		let highest = scores.slice(0, 3);
+		unique = scores.slice(0, 3);
+		console.log("STEP 1 COMPLETE - SAVING DATA");
+		utils.storeData(unique, `results_bag${bagType}.json`, false);
+	}
 
-		for (let i = 0; i < highest.length; i++) {
-			const high = highest[i];
+	if( unique[0].step < 2 ){
+		console.log("STARTING STEP 2 - FIND PRICES");
+
+		for (let i = 0; i < unique.length; i++) {
+			const high = unique[i];
 			let highscore = await findScore(high, 0.5, response);
 			highscore = await findScore(highscore, 0.2, response);
 			highscore = await findScore(highscore, 0.1, response);
 			highscore = await findScore(highscore, 0.01, response);
 
-			highest[i] = { ...highscore };
-			utils.storeData(highscore, `results_bag${bagType}.json`, false);
+			unique[i] = { ...highscore };
+			unique[i].step = 2;
+			//utils.storeData(highscore, `results_bag${bagType}.json`, false);
 		}
 
-		unique = highest
+		unique = unique
 			.map((e) => e.solution["bagPrice"] + "_" + e.solution["refundAmount"])
 			.map((e, i, final) => final.indexOf(e) === i && i)
-			.filter((obj) => highest[obj])
-			.map((e) => highest[e]);
+			.filter((obj) => unique[obj])
+			.map((e) => unique[e]);
 
 		unique.sort((a, b) => b.score.score - a.score.score);
 		utils.storeData(unique, `results_bag${bagType}.json`, true);
+		console.log("STEP 2 COMPLETE - SAVING DATA");
 	}
 
 	/**
 	 * FINDS MINIMUM NEEDED BAGS
 	 */
 
-	
-	/*
+	if( unique[0].step < 3 ){
 
-	unique = JSON.parse(utils.loadData(`results_bag${bagType}.json`));
-	console.log("STARTING ORDERS ALGORITHM");
-	for (let i = 0; i < unique.length; i++) {
-		const high = unique[i];
+		console.log("STARTING STEP 3 - MINIMUM ORDERS");
+		for (let i = 0; i < unique.length; i++) {
+			const high = unique[i];
 
-		let highscore = await findOrders(high, 200);
-		highscore = await findOrders(highscore, 100);
-		highscore = await findOrders(highscore, 50);
-		highscore = await findOrders(highscore, 25);
-		highscore = await findOrders(highscore, 10);
-		highscore = await findOrders(highscore, 1);
+			let highscore = await findOrders(high, 200);
+			highscore = await findOrders(highscore, 100);
+			highscore = await findOrders(highscore, 50);
+			highscore = await findOrders(highscore, 25);
+			highscore = await findOrders(highscore, 10);
+			highscore = await findOrders(highscore, 1);
 
-		unique[i] = { ...highscore };
+			unique[i] = { ...highscore };
+			unique[i].step = 3;
+		}
+		utils.storeData(unique, `results_bag${bagType}.json`, true);
+		console.log("STEP 3 COMPLETE - SAVING DATA");
 	}
-
-	utils.storeData(unique, `results_bag${bagType}.json`, true);
-
-	*/
-	unique = JSON.parse(utils.loadData(`results_bag${bagType}.json`));
 
 	let minimumInterval = await findInterval(unique[0]);
 }
 
 async function findInterval(solution) {
-	console.log("FINDIN INTERVAL");
+	console.log("STARTING STEP 4 - FINDING ORDER INTERVAL");
 
 	let order = 0;
 	solution.solution.orders = [];
