@@ -44,30 +44,29 @@ async function main(bagNum) {
 	let stepTwoSuccess = false;
 	let stepThreeSuccess = false;
 	let stepFourSuccess = false;
+
+	console.log("CREATING SUBS");
+	const prices = [0.1, 4, 6, 10];
+	const refunds = [0.1, 0.4, 0.8];
+	const recycles = [true, false];
+	for (const recycleRefundChoice of recycles) {
+		for (const refundAmount of refunds) {
+			for (const bagPrice of prices) {
+				subs.push({ bagPrice, refundAmount, bagType, recycleRefundChoice });
+			}
+		}
+	}
+	let solutions = [];
+	for (const sub of subs) {
+		let solution = solver.solve(response, sub, days);
+		solution.bagPrice = round(solution.bagPrice, 3);
+		solution.refundAmount = round(solution.refundAmount, 3);
+		solutions.push({ ...solution });
+	}
+
 	if (subs.length < 1) {
 		while( !stepOneSuccess ){
-			try {
-				
-					console.log("CREATING SUBS");
-					const prices = [0.1, 4, 6, 10];
-					const refunds = [0.1, 0.4, 0.8];
-					const recycles = [true, false];
-					console.log(subs);
-					for (const recycleRefundChoice of recycles) {
-						for (const refundAmount of refunds) {
-							for (const bagPrice of prices) {
-								subs.push({ bagPrice, refundAmount, bagType, recycleRefundChoice });
-							}
-						}
-					}
-					let solutions = [];
-					for (const sub of subs) {
-						let solution = solver.solve(response, sub, days);
-						solution.bagPrice = round(solution.bagPrice, 3);
-						solution.refundAmount = round(solution.refundAmount, 3);
-						solutions.push({ ...solution });
-					}
-			
+			try {			
 					let scores = [];
 					console.log("STARTING STEP 1 - GENERAL SOLUTIONS");
 					console.log(solutions.length);
@@ -254,7 +253,7 @@ async function findInterval(solution) {
                     highscore = newScore;
                     continue;
             } else {
-                if( saveScore.score >= newDailyScore  ){
+                if( saveScore.score > newDailyScore  ){
                     solution.solution.orders[day] -= 1;
                     day++;
                     highscore = newScore;
@@ -265,7 +264,7 @@ async function findInterval(solution) {
                     condition = false;
                     console.log(solution.score.score, newScore.score);
                     console.log("TOTAL SUBMITS: " + submitCounter);
-                    totalcondition++;
+                    totalCondition++;
                 }
                 console.log("BREAKING - ADDING BAG");
                 break;
