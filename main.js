@@ -243,7 +243,7 @@ async function findInterval(solution) {
             console.log("NCS is 0: ", newDay.negativeCustomerScore == 0);
             console.log("CO2 is lower: ", newDay.c02 < oldDay.c02);
 
-            utils.storeData(solution.solution.orders, `./orders/orders_bag${bagNum}_${currentMap}_${totalCondition}.json`);
+            utils.storeData(solution.solution.orders, `./orders/orders_bag${bagType}_${currentMap}_${totalCondition}.json`);
 
             if( newDay.positiveCustomerScore >= oldDay.positiveCustomerScore && 
                 newDay.negativeCustomerScore == 0 &&
