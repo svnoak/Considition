@@ -163,6 +163,7 @@ async function main(bagNum) {
             }
 			stepFourSuccess = true;
 		} catch (error) {
+            console.log(error);
 			console.log("STEP 4 FAILED - TRYING AGAIN");
 		}
 	}
@@ -190,32 +191,44 @@ async function findInterval(solution) {
 
 	console.log("STARTING WHILE LOOP");
 
-	let lastCompromise = 0;
-
+    let highscore = await api.submitGame(apiKey, currentMap, solution.solution);
+    let day = 0;
+    let saveScore = {
+        score: highscore.dailys[day].positiveCustomerScore - Math.abs(highscore.dailys[day].negativeCustomerScore) - highscore.dailys[day].c02,
+        day: day 
+    }
 	while (condition) {
+        
 		console.log("GAME SUBMISSION");
+
+        solution.solution.orders[day] += 11;
+        console.log(day);
 		let newScore = await api.submitGame(apiKey, currentMap, solution.solution);
+        
 		submitCounter++;
 		console.log("GAME SUBMITTED");
 
-		for (let i = 0; i < newScore.dailys.length; i++) {
+		for (let i = day; i < newScore.dailys.length; i++) {
+
 			newDay = newScore.dailys[i];
 			oldDay = solution.score.dailys[i];
 
-			let day = i-1 > 0 ? i-1 : 0;
-			
-			let refundCondition = solution.solution.refundAmount * solution.solution.orders.map( (a,b) => a+b ) / 2;
-			let budgetCondition = newDay.companyBudget > refundCondition;
-			let negativeCondition = Math.abs(newScore.dailys[day].negativeCustomerScore) < Math.abs(newDay.negativeCustomerScore);
-			let positiveCondition = newDay.positiveCustomerScore < oldDay.positiveCustomerScore;
-			let emissionCondition = oldDay.c02 < newDay.c02;
-
-			let maxDailyScore = newDay.positiveCustomerScore + Math.abs(newDay.negativeCustomerScore);
-
-			let oldDailyScore = oldDay.positiveCustomerScore - Math.abs(oldDay.negativeCustomerScore) - oldDay.c02;
+			//let day = i-1 > 0 ? i-1 : 0;
+            
+            let oldDailyScore = oldDay.positiveCustomerScore - Math.abs(oldDay.negativeCustomerScore) - oldDay.c02;
 			let newDailyScore = newDay.positiveCustomerScore - Math.abs(newDay.negativeCustomerScore) - newDay.c02;
 
-			console.log("---------");
+            if( saveScore.day != day ) saveScore = { score: -200000000, day: day};
+
+            if( saveScore.day == day && newDailyScore > saveScore.score ){
+                saveScore = {
+                    score: newDailyScore,
+                    day: day }
+            }
+
+            console.log(saveScore);
+
+            console.log("---------");
 			console.log("Day: " + i);
 			console.log("Bags: ", solution.solution.orders[i] );
 			//console.log("Bags in Transport: ", bagsInTransport(newDay.c02, solution.solution.orders));
@@ -226,96 +239,38 @@ async function findInterval(solution) {
 			console.log("Daily Score: ", Math.floor(oldDailyScore), Math.floor(newDailyScore));
 			console.log("---------");
 
-			/**
-			 * Jag kan få det bästa resultat med minst antalet påsar
-			 * Hur vet loopen att det var det bästa resultatet?
-			 * Jag borde kanske göra en array med daily scores och jämföra.
-			 * Om den gick ner igen, ta den senaste och fortsätt till nästa.
-			 */
+            console.log("POSITIVE LARGER OR SAME: ", newDay.positiveCustomerScore >= oldDay.positiveCustomerScore );
+            console.log("NCS is 0: ", newDay.negativeCustomerScore == 0);
+            console.log("CO2 is lower: ", newDay.c02 < oldDay.c02);
 
-			 let oldCo2Orders = solution.solution.orders;
-			 let oldCo2Solution  = {...solution.solution};
-			 oldCo2Solution.orders = oldCo2Orders;
+            utils.storeData(solution.solution.orders, pathOrders);
 
-			 let oldCo2 = newScore;
-			 let newCo2;
+            if( newDay.positiveCustomerScore >= oldDay.positiveCustomerScore && 
+                newDay.negativeCustomerScore == 0 &&
+                Math.floor(newDay.c02) < Math.floor(oldDay.c02)
+                ){
+                    console.log("OPTIMAL DAY - CONTINUE")
+                    day++;
+                    highscore = newScore;
+                    continue;
+            } else {
+                if( saveScore.score > newDailyScore  ){
+                    solution.solution.orders[day] -= 11;
+                    day++;
+                    highscore = newScore;
+                    continue;
+                }
 
-			 if( newDay.negativeCustomerScore < 0 ){
-				solution.solution.orders[day] += Math.abs(newDay.negativeCustomerScore)/10;
-				console.log("ADDING BAGS");
-				break;
-			}
-
-/*
-			for( let k = 1; k < 4; k++ ){
-				if( newDay.negativeCustomerScore == 0 ){
-					newCo2Solution = {...oldCo2Solution};
-					if( newCo2Solution.orders[i] - k > 0 )
-						newCo2Solution.orders[i] -= k;
-					newCo2 = await api.submitGame(apiKey, currentMap, newCo2Solution);
-
-					if( newCo2.dailys[i].c02 - oldCo2.dailys[i].c02 < newScore.negativeCustomerScore ){
-						console.log("CO2 is lower, rerun loop!")
-						oldCo2 = {...newCo2};
-						oldCo2Solution = {...newCo2Solution};
-					} else {
-						break;
-					}
-				}
-			}*/
-			lastCompromise = i;
-
-
-			/* if( budgetCondition ){
-				solution.solution.orders[i] += 15;
-				console.log("Budget too low, adding bags.");
-				break;
-			} else if( positiveCondition ){
-				solution.solution.orders[i] += Math.abs(newDay.negativeCustomerScore)/10;
-				console.log("PositiveCustomerScore rising, adding bags.");
-				break;
-			} else if( maxDailyScore / solution.solution.orders.reduce((a,b) => a+b, 0) == 10 ){
-				console.log("Optimal result, continue");
-				continue;
-			} else if( newDay.positiveCustomerScore == oldDay.positiveCustomerScore && negativeCondition ) {
-				solution.solution.orders[i-1] += Math.abs(newDay.negativeCustomerScore)/10;
-				console.log("CONDITION 1, add bags");
-				break;
-			} else if( newDay.positiveCustomerScore == oldDay.positiveCustomerScore && !negativeCondition ){
-				console.log("CONDITION 2, remove bags");
-				solution.solution.orders[i] -= 5;
-				break;
-			}
-			else if( emissionCondition ){
-				if( solution.solution.orders[i] -5 > 0){
-					solution.solution.orders[i] -= x;
-					x--;
-					console.log("Emissions rising, remove bags.");
-				} else {
-					console.log("Emissions rising, no bags to remove");
-				}
-				break;
-			} */
-/*
-			else if( negativeCondition ){
-				solution.solution.orders[i-1] += Math.abs(newDay.negativeCustomerScore)/10;
-				console.log("NegativeCustomerScore falling, adding bags.");
-				break;
-			} else if( positiveCondition ){
-				solution.solution.orders[i] += 12;
-				console.log("PositiveCustomerScore rising, adding bags.");
-				break;
-			}*/
+                if (i == newScore.dailys.length - 1) {
+                    condition = false;
+                    console.log(solution.score.score, newScore.score);
+                    console.log("TOTAL SUBMITS: " + submitCounter);
+                }
+                console.log("BREAKING - ADDING BAG");
+                break;
+            }
 
 			
-
-			utils.storeData(solution.solution.orders, pathOrders);
-
-			if (i == newScore.dailys.length - 1) {
-				condition = false;
-				console.log(solution.score.score, newScore.score);
-				console.log("TOTAL SUBMITS: " + submitCounter);
-			}
 		}
 	}
 }
