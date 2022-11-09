@@ -1,4 +1,19 @@
-﻿# Javascript Starterkit Considition 2022
+# Used algorithm
+
+Starting with a set range of values for bagPrice and refundAmount that would be multiplied with the production price of each bag,
+we started with 24 combinations in total to get back different points.
+
+To find the highest points on each curve we choose to use look at the score differences in incremental changes, 
+taking the solution with the largest score, creating new incremental changes and submitting it again until we found the largest score.
+
+After that we reduced all orders to 0, and wanted to create a compromise between CO2 emissions and negativeCustomerScore, whichever had the smallest impact
+to create the optimal score over 365 days.
+
+
+
+
+
+# Javascript Starterkit Considition 2022
 This is the StarterKit for Considition 2022 which will help you get going as quickly as possible with the competition.
 
 - **The Main Program:** This is where we run the main parts. There is an example solver implemented, Solver, which you can try out of the box.
