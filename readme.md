@@ -9,6 +9,8 @@ taking the solution with the largest score, creating new incremental changes and
 After that we reduced all orders to 0, and wanted to create a compromise between CO2 emissions and negativeCustomerScore, whichever had the smallest impact
 to create the optimal score over 365 days.
 
+The algorithm was peer-programmed together with Isak Gerre.
+
 
 
 
